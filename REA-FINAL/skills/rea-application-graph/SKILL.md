@@ -30,9 +30,9 @@ Activate this skill whenever creating or updating structural models of the targe
 - Compiled frozen application graph: `application-graph.json` (Phase 12).
 
 ## 6. Relevant REA Phases
-- **Phases 0–10:** Incremental fragment generation.
-- **Phase 11:** Graph integrity validation and coverage audit.
-- **Phase 12:** Graph compilation and freeze.
+- **MASTER-PHASE-01 through 12:** Incremental fragment generation.
+- **MASTER-PHASE-13 (`PART-06-LOCAL-PHASE-11`):** Graph integrity validation and coverage audit.
+- **MASTER-PHASE-13 (`PART-06-LOCAL-PHASE-12`):** Graph compilation and freeze (governed by `REA-PHASE-REGISTRY.md`).
 
 ## 7. Required Capabilities
 - Filesystem append and write access in the audit directory.

@@ -6,15 +6,19 @@ description: Frontend-only reconstruction engine for REA. Consumes the framework
 # REA Frontend-Only Reconstruction
 
 ## 1. Overview & Purpose
-`rea-frontend-reconstruction` executes Phase 13 (`PART-07`) of the REA lifecycle. It consumes the frozen, framework-agnostic Intermediate Representation (`ir.json`) and audit deliverables to generate a clean, modern, frontend-only implementation of the target application in `{{RECON_DIR}}`. It strictly enforces the frontend-only boundary, builds synthetic mock API services matching observed contracts, and traces every IR node to a generated code file, placeholder, or documented blocker.
+`rea-frontend-reconstruction` executes `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13`) of the REA lifecycle. It consumes the frozen, framework-agnostic Intermediate Representation (`ir.json`) and audit deliverables to generate a clean, modern, frontend-only implementation of the target application in `{{RECON_DIR}}`. It strictly enforces the frontend-only boundary, builds synthetic mock API services matching observed contracts, and traces every IR node to a generated code file, placeholder, or documented blocker.
+
+> [!NOTE]
+> Governed authoritatively by [`REA-PHASE-REGISTRY.md`](../../REA-PHASE-REGISTRY.md). `MASTER-PHASE-16` is Reconstruction; `MASTER-PHASE-13` is IR Freeze.
 
 ## 2. Activation Guidance & Strict Stop Gate
 **CRITICAL PROTECTION:** This skill is **STRICTLY FORBIDDEN** from activating until ALL of the following prerequisites are met:
-1. `PART-06` is fully completed.
-2. The Phase 11 Completeness Gate has evaluated to `PASS`.
-3. The user has provided **explicit written approval** specifically authorizing frontend reconstruction.
+1. `PART-06` audit deliverables are fully completed.
+2. `MASTER-PHASE-13` (Phase 11 Completeness Gate) has evaluated to `PASS`.
+3. Final Feasibility Reconciliation is complete; any `NOT_FEASIBLE` finding is isolated or resolved.
+4. The user has provided **explicit, separate, written approval** specifically authorizing frontend reconstruction.
 
-Never infer approval from general praise, ambiguous statements, or prior permission.
+**This skill cannot approve its own execution.** Never infer approval from general praise, ambiguous statements, or prior permission.
 
 ## 3. Preconditions
 - `{{AUDIT_DIR}}ir.json`, `ir-summary.md`, and `ir-derivation-log.md` exist and are frozen.

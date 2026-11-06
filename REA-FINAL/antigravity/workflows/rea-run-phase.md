@@ -1,9 +1,13 @@
-# WORKFLOW: REA Run Phase / Partition
+# WORKFLOW: REA Run Phase / Partition (Archived Reference Runbook)
 
-**Workflow ID:** `rea-run-phase`  
-**Trigger:** Explicit user command specifying a partition (e.g. `/rea-run-phase 2`, or "Run PART 02")  
-**Target Part:** PART 01 through PART 06 (PART 07 requires `rea-approve-reconstruction`)  
-**Governing Document:** `PART-00-MASTER-CONTROL.md` (Partition Execution Protocol)
+> [!WARNING]
+> **DEPRECATION & MIGRATION NOTICE:**  
+> Standalone workflow files (`.agents/workflows/*.md`) are deprecated in Google Antigravity. Live slash command `/rea-orchestrator` is powered directly by [`skills/rea-orchestrator/SKILL.md`](../skills/rea-orchestrator/SKILL.md). This file is preserved as an offline procedural reference runbook. See [`WORKFLOW-MIGRATION-GUIDE.md`](../antigravity/WORKFLOW-MIGRATION-GUIDE.md).
+
+**Workflow ID:** `rea-run-phase` (Reference Runbook)  
+**Governing Skill:** `rea-orchestrator` (`/rea-orchestrator`)  
+**Target Parts:** `PART-01` through `PART-06` (`PART-07` requires explicit written approval)  
+**Governing Documents:** `PART-00-MASTER-CONTROL.md`, `REA-PHASE-REGISTRY.md`
 
 ---
 
@@ -17,16 +21,16 @@
 ## Execution Steps
 
 ### Step 1: Read Context & Checkpoints
-- Read `PART-00-MASTER-CONTROL.md`.
+- Read `PART-00-MASTER-CONTROL.md` and `REA-PHASE-REGISTRY.md`.
 - Read the latest `checkpoint.md`, `progress-log.md`, and capability matrix.
 - Verify that no prerequisite capability is marked `NOT_SUPPORTED` without a documented fallback.
 
 ### Step 2: Execute Requested Partition Only
-- If PART 02 requested: Execute Phases 1 and 2 only (URL Discovery, Page-by-Page Analysis).
-- If PART 03 requested: Execute Phases 3, 4, and 5 only (Interactions, Design System, Responsive).
-- If PART 04 requested: Execute Phases 6 and 7 only (Technology Fingerprint, Architecture).
-- If PART 05 requested: Execute Phases 8, 9, and 10 only (Quality, Passive Security, Conditional Modules).
-- If PART 06 requested: Execute Phases 11 and 12 only (Completeness Gate, Final Report, IR Freeze).
+- If PART 02 requested: Execute `MASTER-PHASE-05` and `06` only (`PART-02-LOCAL-PHASES-01-02` URL Discovery, Page Analysis).
+- If PART 03 requested: Execute `MASTER-PHASE-07`, `08`, and `09` only (`PART-03-LOCAL-PHASES-03-05` Interactions, Design Tokens, Responsive).
+- If PART 04 requested: Execute `MASTER-PHASE-10` and `11` only (`PART-04-LOCAL-PHASES-06-07` Tech Fingerprint, Architecture).
+- If PART 05 requested: Execute `MASTER-PHASE-12` only (`PART-05-LOCAL-PHASES-08-10` Quality, Passive Security, Conditional Modules).
+- If PART 06 requested: Execute `MASTER-PHASE-13`, `14`, and `15` only (`PART-06-LOCAL-PHASES-11-12` Completeness Gate, Final Report, IR Freeze).
 
 ### Step 3: Evidentiary Recording & Graph Fragment Emission
 - Append all new observations to `evidence-ledger.md` using sequential E-IDs.

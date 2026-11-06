@@ -54,22 +54,23 @@ Activate this skill in Phase 0 during preflight setup, and again in Phase 11 pri
 
 ## 10. Canonical Classifications & Rules
 Each Route and significant Feature is classified independently:
-- `FEASIBLE`: Observable through available REA capabilities, sufficient evidence achievable, cleanly reconstructible within frontend-only boundaries.
-- `PARTIALLY FEASIBLE`: Portions observable and reconstructible; specific sub-features are blocked and must be documented as placeholders/limitations.
-- `NOT FEASIBLE`: Essential functionality cannot be inspected or reconstructed under current capabilities, access limits, or safety rules.
-- `UNKNOWN`: Insufficient evidence to establish feasibility at the current phase.
+- `FEASIBLE` (`FEASIBLE`): Observable through available REA capabilities, sufficient evidence achievable, cleanly reconstructible within frontend-only boundaries.
+- `PARTIALLY FEASIBLE` (`PARTIALLY_FEASIBLE`): Portions observable and reconstructible; specific sub-features are blocked and must be documented as placeholders/limitations.
+- `NOT FEASIBLE` (`NOT_FEASIBLE`): Essential functionality cannot be inspected or reconstructed under current capabilities, access limits, or safety rules.
+- `UNKNOWN` (`UNKNOWN`): Insufficient evidence to establish feasibility at the current phase.
 
 ### Qualitative Difficulty Estimates:
-- Must use `Low`, `Medium`, `High`, or `Unknown`.
+- Must use `LOW`, `MEDIUM`, `HIGH`, or `UNKNOWN`.
 - All estimates must be marked `[INFERRED]` and justified by written technical rationale.
 - **Strict Rule:** Never invent numerical percentages (e.g. "87% feasible").
 
 ## 11. NOT FEASIBLE Blocker Policy
-If any primary route or essential application feature is evaluated as `NOT FEASIBLE`:
-1. **Halt Before Reconstruction:** Do not advance to `PART-07`.
-2. **Detail the Blocker:** Identify the exact technical cause (e.g. proprietary encrypted WebSocket, missing auth credential, opaque WebGL shader).
-3. **Present Feasible Alternatives:** Formulate alternative paths (e.g. partial reconstruction, mock UI shell, documentation-only deliverable).
-4. **Preserve Prior Work:** Emphasize that Phases 01–06 remain fully valid and valuable as a comprehensive security, SEO, accessibility, and architectural audit.
+If any primary route or essential application feature is evaluated as `NOT FEASIBLE` (`NOT_FEASIBLE`):
+1. **Audit Progression Continues:** Do NOT cancel or abandon audit phases. Phases 01–06 (`MASTER-PHASE-05` through `MASTER-PHASE-14`) continue to capture all allowable evidence and deliver the full security, SEO, accessibility, and architectural audit.
+2. **Reconstruction Gated:** `NOT_FEASIBLE` blocks ONLY `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Frontend Reconstruction).
+3. **Detail the Blocker:** Identify the exact technical cause (e.g. proprietary encrypted WebSocket, missing auth credential, opaque WebGL shader).
+4. **Present Feasible Alternatives:** Formulate alternative paths (e.g. partial reconstruction, mock UI shell, documentation-only deliverable).
+5. **Preserve Prior Work:** Emphasize that all audit deliverables remain fully valid.
 
 ## 12. Final Reconciliation Discipline (Phase 11)
 - Reconcile provisional Phase 0 findings against all evidence accumulated through Phase 10.

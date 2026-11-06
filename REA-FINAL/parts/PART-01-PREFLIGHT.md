@@ -69,14 +69,14 @@ These steps execute before completing Phase 0 to ensure that unfeasible targets 
     - (8) Feature-specific dependencies visible on the initial surface.
     - (9) Available inspection capabilities vs required investigation depth.
     - (10) Potential frontend reconstruction blockers (e.g. WebGL canvas games, proprietary streaming protocols, non-reconstructible third-party embeds).
-14. Record provisional feasibility for the entry Route and any immediately identifiable major Features using the four canonical classifications: `FEASIBLE`, `PARTIALLY FEASIBLE`, `NOT FEASIBLE`, or `UNKNOWN`.
-    - Every classification must include: reason, E-IDs, relevant F-IDs, required capabilities, known limitations, reconstruction implications, and qualitative provisional difficulty (`Low`, `Medium`, `High`, or `Unknown`).
+14. Record provisional feasibility for the entry Route and any immediately identifiable major Features using the four canonical classifications: `FEASIBLE`, `PARTIALLY FEASIBLE`, `NOT FEASIBLE`, or `UNKNOWN` (mapped in JSON to `FEASIBLE`, `PARTIALLY_FEASIBLE`, `NOT_FEASIBLE`, `UNKNOWN`).
+    - Every classification must include: reason, E-IDs, relevant F-IDs, required capabilities, known limitations, reconstruction implications, and qualitative provisional difficulty (`LOW`, `MEDIUM`, `HIGH`, or `UNKNOWN`).
     - Never invent difficulty percentages or precise metrics. All difficulty estimates are qualitative, marked `[INFERRED]`, and justified by written criteria.
     - Do not infer that an entire multi-page application is `FEASIBLE` solely from a successful homepage load.
-15. If the entry Route or any primary Feature is provisionally evaluated as `NOT FEASIBLE`:
+15. If the entry Route or any primary Feature is provisionally evaluated as `NOT FEASIBLE` (`NOT_FEASIBLE`):
     - Document the specific blocker and affected deliverable in `feasibility-assessment.md`.
     - Present feasible alternatives (e.g. static shell with mock data, partial route coverage, documentation-only audit).
-    - Note that Phases 01–06 remain fully actionable for security, quality, and architectural auditing even when reconstruction is not feasible.
+    - Note that Parts 01–06 (`MASTER-PHASE-05` through `MASTER-PHASE-14`) remain fully actionable for security, quality, and architectural auditing even when reconstruction is not feasible. `NOT_FEASIBLE` blocks ONLY Part 07 (`MASTER-PHASE-16` Reconstruction).
 
 ### RECORD
 Every observation must follow the evidence record in PART 00. Every claim must have one mandatory label (`[OBSERVED]`, `[INFERRED]`, `[UNKNOWN]`, `[LIMITATION]`). Do not record a status code, header, title, or redirect unless actually exposed.

@@ -25,7 +25,7 @@ List the current phase status, URL queue totals, evidence/finding ID ranges, and
     - Reconcile the provisional feasibility assessments from Phase 0 (`feasibility-assessment.md`) against all accumulated evidence from Phases 1–10.
     - Classify each discovered Route and major Feature as `FEASIBLE`, `PARTIALLY FEASIBLE`, `NOT FEASIBLE`, or `UNKNOWN`.
     - Use append-only records: never overwrite or erase earlier Phase 0 observations. Document every shift in feasibility classification with supporting E-IDs and specific technical explanations.
-    - If an essential Route or Feature is classified as `NOT FEASIBLE`, flag it as an explicit reconstruction blocker before proceeding to Phase 12. Save `final-feasibility-reconciliation.md`.
+    - If an essential Route or Feature is classified as `NOT FEASIBLE` (`NOT_FEASIBLE`), flag it as an explicit reconstruction blocker before proceeding to Phase 12. Note: Feasibility blockers block ONLY `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Frontend Reconstruction); Phase 12 Master Report delivery and `MASTER-PHASE-13` IR Freeze proceed to finalize the audit. Save `final-feasibility-reconciliation.md`.
 
 ### DELIVER
 Save:
@@ -89,7 +89,7 @@ Use tables where useful. Every factual row traces to evidence IDs. Preserve orig
 If the Phase 11 gate did not pass, do not produce `ir.json`.
 
 ### FINAL AUDIT REVIEW — STOP GATE
-After saving the report, STOP. Do not begin Phase 13 or create `{{RECON_DIR}}`.
+After saving the report, STOP. Do not begin `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Frontend Reconstruction) or create `{{RECON_DIR}}`. (Note: `MASTER-PHASE-13` IR Freeze is already complete).
 
 Present:
 - Investigation completion status
@@ -98,7 +98,7 @@ Present:
 - Major findings
 - Outstanding limitations
 - Recommended reconstruction architecture
-- Final feasibility reconciliation results (FEASIBLE / PARTIALLY FEASIBLE / NOT FEASIBLE)
+- Final feasibility reconciliation results (`FEASIBLE` / `PARTIALLY_FEASIBLE` / `NOT_FEASIBLE` / `UNKNOWN`)
 - Exact paths to all reports and evidence
 - Whether the Phase 11 gate passed
 - IR freeze status and exact paths (`application-graph.json`, `ir.json`, `ir-summary.md`, `ir-derivation-log.md`)
@@ -107,7 +107,7 @@ Present:
 - Asset authorization summary, listing the assets that need the user's written approval before reuse
 - Whether a substitute checklist was used because the original Appendix E was unavailable
 
-Wait for the user's explicit written approval before PART 07. Approval must clearly authorize frontend reconstruction. Do not interpret general praise or an ambiguous response as approval.
+Wait for the user's explicit written approval before PART 07 (`MASTER-PHASE-16`). Approval must clearly authorize frontend reconstruction. Do not interpret general praise or an ambiguous response as approval.
 
 ### STOP
 No reconstruction in this partition.

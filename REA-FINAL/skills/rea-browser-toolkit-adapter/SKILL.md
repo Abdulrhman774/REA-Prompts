@@ -1,12 +1,16 @@
 ---
 name: rea-browser-toolkit-adapter
-description: Optional external adapter for Dvurechensky's Browser Reverse Engineering Toolkit. Normalizes external capture archives into REA-compatible evidence records while preserving provenance and sanitizing sensitive data.
+description: Architectural specification for the optional Browser Reverse Engineering Toolkit adapter (DESIGN_ONLY / NOT VERIFIED). Documents provenance normalization and fail-closed secret redaction for external capture files.
 ---
 
 # REA Browser Reverse Engineering Toolkit Adapter
 
-## 1. Overview & Purpose
-`rea-browser-toolkit-adapter` is an **optional, capability-gated translation layer** that connects offline capture outputs from `Dvurechensky/Browser.Reverse.Engineering.Toolkit` (`SiteSnapshotter`, `SiteCrawlerSnapshotter`, `SiteReconstructor`) to REA's provider-neutral evidence model. 
+## 1. Overview & Implementation Status
+> [!IMPORTANT]
+> **STATUS: DESIGN_ONLY — NOT VERIFIED**  
+> This skill defines the architectural specification and evidence normalization contract for the optional `Dvurechensky/Browser.Reverse.Engineering.Toolkit` adapter. **No executable adapter source code, parser script, or automated test is currently present in the REA package.** In the Skill Registry, this adapter is categorized as `DESCRIBED` / `NOT_SUPPORTED` / `NOT_VERIFIED`.
+
+`rea-browser-toolkit-adapter` is an **optional, capability-gated translation layer** connecting offline capture outputs (`SiteSnapshotter`, `SiteCrawlerSnapshotter`, `SiteReconstructor`) to REA's provider-neutral evidence model. 
 
 It normalizes external telemetry into standardized REA Evidence IDs (`E-xxx`), tags all imported observations with explicit provenance, verifies data sanitization, and prevents external claims from being mistaken for direct REA observations.
 

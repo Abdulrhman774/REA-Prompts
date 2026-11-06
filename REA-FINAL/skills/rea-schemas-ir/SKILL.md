@@ -26,8 +26,8 @@ Activate this skill in Phase 12 after the Phase 11 completeness gate has passed,
 - `{{AUDIT_DIR}}ir-derivation-log.md`: Cross-reference audit proving consistency between markdown deliverables and IR sections.
 
 ## 6. Relevant REA Phases
-- **Phase 12:** Compilation, cross-checking against markdown, and freezing.
-- **Phase 13:** Handoff contract verification and mock fixture derivation.
+- **MASTER-PHASE-13:** Compilation, cross-checking against markdown, and IR freeze (governed by `REA-PHASE-REGISTRY.md`).
+- **MASTER-PHASE-16 (`PART-07-LOCAL-PHASE-13`):** Handoff contract verification and mock fixture derivation for frontend reconstruction.
 
 ## 7. Required Capabilities
 - Local filesystem read and write access in the audit directory.

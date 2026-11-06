@@ -1,0 +1,87 @@
+﻿[
+    {
+        "Test":  "1. Manifest Check",
+        "Status":  "PASS",
+        "Details":  "Manifest checked successfully with 0 errors"
+    },
+    {
+        "Test":  "2. DryRun with Workspace",
+        "Status":  "PASS",
+        "Details":  "DryRun simulated without creating .agents"
+    },
+    {
+        "Test":  "3. DryRun with Global",
+        "Status":  "PASS",
+        "Details":  "DryRun simulated Global without error"
+    },
+    {
+        "Test":  "4. DryRun with Both",
+        "Status":  "PASS",
+        "Details":  "DryRun simulated Both scopes without error"
+    },
+    {
+        "Test":  "5. Fresh Sandbox Installation",
+        "Status":  "PASS",
+        "Details":  "Installed 9 skills, rules, and workflows"
+    },
+    {
+        "Test":  "6. Idempotency Check",
+        "Status":  "PASS",
+        "Details":  "All 14 components skipped as identical"
+    },
+    {
+        "Test":  "7-9. Refuse Overwrite Without -Force",
+        "Status":  "PASS",
+        "Details":  "Refused overwrite of 2 conflicting components; existing files preserved"
+    },
+    {
+        "Test":  "10-11. Authorized Overwrite with -Force \u0026 Backup Verification",
+        "Status":  "PASS",
+        "Details":  "Overwrote with -Force; verified timestamped backup preserved pre-existing content"
+    },
+    {
+        "Test":  "12. Restore From Backup",
+        "Status":  "PASS",
+        "Details":  "Successfully restored file from backup"
+    },
+    {
+        "Test":  "13. Reject Corrupt Manifest",
+        "Status":  "PASS",
+        "Details":  "Rejected corrupt manifest with exit code 1"
+    },
+    {
+        "Test":  "14. Reject Duplicate Entry IDs in Manifest",
+        "Status":  "PASS",
+        "Details":  "Rejected duplicate entry ID with error"
+    },
+    {
+        "Test":  "15. Reject Missing Source Path in Manifest",
+        "Status":  "PASS",
+        "Details":  "Rejected missing source path with error"
+    },
+    {
+        "Test":  "16. Reject Missing requiredFiles (SKILL.md)",
+        "Status":  "PASS",
+        "Details":  "Rejected missing SKILL.md with error"
+    },
+    {
+        "Test":  "17. Reject Path Traversal in Manifest TargetDirectory",
+        "Status":  "PASS",
+        "Details":  "Rejected path traversal with security error"
+    },
+    {
+        "Test":  "18. Require Explicit Scope for Write Operations",
+        "Status":  "PASS",
+        "Details":  "Refused execution without explicit scope specification"
+    },
+    {
+        "Test":  "19. SupportsShouldProcess (-WhatIf)",
+        "Status":  "PASS",
+        "Details":  "WhatIf flag recognized and supported cleanly"
+    },
+    {
+        "Test":  "20. PowerShell Syntax \u0026 Cmdlet Binding Verification",
+        "Status":  "PASS",
+        "Details":  "0 syntax errors in Install-ReaSkills.ps1 AST"
+    }
+]

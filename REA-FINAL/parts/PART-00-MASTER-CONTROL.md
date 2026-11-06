@@ -213,8 +213,10 @@ To ensure that reconstruction risks are recognized before substantial effort is 
 Every in-scope Route and major Feature is provisionally evaluated in Phase 0 and reconciled in Phase 11:
 - `FEASIBLE`: Observable through available REA capabilities, sufficient evidence achievable, reproducible within frontend-only boundaries.
 - `PARTIALLY FEASIBLE`: Portions can be inspected and reconstructed; specific elements (e.g. complex canvas shaders, unobservable third-party widgets, opaque binary protocols) are blocked and must be documented as limitations/placeholders.
-- `NOT FEASIBLE`: Essential UI or interactions cannot be inspected or reconstructed under current capabilities, access, or safety rules. If an essential Route or Feature is NOT FEASIBLE, stop before PART 07, document blockers, present alternatives, and request user guidance.
+- `NOT FEASIBLE`: Essential UI or interactions cannot be inspected or reconstructed under current capabilities, access, or safety rules. If an essential Route or Feature is NOT FEASIBLE, Parts 01–06 continue normally to deliver full audit, security, and architectural findings; ONLY Part 07 (`MASTER-PHASE-16` Reconstruction) is blocked. The agent must document blockers, present alternatives, and request user guidance before any reconstruction is considered.
 - `UNKNOWN`: Insufficient evidence to determine feasibility at the current phase.
+
+Canonical machine-readable JSON enums for schema representation: `FEASIBLE`, `PARTIALLY_FEASIBLE`, `NOT_FEASIBLE`, `UNKNOWN`. Difficulty estimates remain qualitative: `LOW`, `MEDIUM`, `HIGH`, `UNKNOWN` (marked `[INFERRED]`).
 
 All feasibility decisions must record:
 `feasibilityDecision | feasibilityReason | evidenceReferences (E-IDs) | requiredCapabilities | knownLimitations | reconstructionNotes`
@@ -243,8 +245,9 @@ Every identified component is labeled with its origin:
 
 ### Antigravity Execution Boundaries (additive)
 When executing inside Google Antigravity or Antigravity IDE:
-- **Rules (`rules/*.md`):** Permanent operational constraints (safety, identity, source preservation). Loaded automatically.
-- **Skills (`skills/<name>/SKILL.md`):** Specialized procedural guidance and on-demand capability descriptors. Disclosed progressively to prevent context bloat.
-- **Workflows (`workflows/*.md`):** User-triggered multi-step routines. Workflows must respect REA phase gating and never bypass approval checkpoints.
+- **Rules (`rules/*.md`):** Permanent operational constraints (safety, identity, source preservation). Loaded automatically using `trigger: always_on`.
+- **Skills (`skills/<name>/SKILL.md`):** Specialized procedural guidance and on-demand capability descriptors. Disclosed progressively to prevent context bloat. Provides native slash-command support (`/<name>`).
+- **Legacy Workflows (`workflows/*.md`):** Procedural runbooks, deprecated in modern Antigravity in favor of Skills. Preserved for procedural reference; never assumed to register slash commands.
 - **Tools / MCP Servers (`mcp_config.json`):** Concrete execution providers (such as the `rea` MCP server running `rea-agents@6.8.0`).
+- **Phase Governance:** Master Orchestration phases (`MASTER-PHASE-01` through `MASTER-PHASE-17`) are mapped to modular Parts via [`REA-PHASE-REGISTRY.md`](../REA-PHASE-REGISTRY.md). `MASTER-PHASE-13` designates Framework-Agnostic IR Freeze, whereas `MASTER-PHASE-16` designates Frontend Reconstruction (`PART-07-LOCAL-PHASE-13`).
 - Skills never execute code directly. Execution occurs solely through approved MCP tool calls or sandboxed environment commands.

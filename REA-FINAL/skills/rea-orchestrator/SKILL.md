@@ -30,7 +30,7 @@ Activate this skill at the inception of any reverse-engineering task, when resum
 - End-of-partition status summaries and explicit stop checkpoints.
 
 ## 6. Relevant REA Phases
-- **Phases 0–13:** Master lifecycle oversight across all partitions.
+- **Master Phases 01–17:** Master lifecycle oversight across all partitions (governed by `REA-PHASE-REGISTRY.md`).
 
 ## 7. Required Capabilities
 - `nav.open-url` (Phase 0 bootstrap verification)
@@ -54,7 +54,8 @@ Directly orchestrates:
 ## 10. Safety & Security Requirements
 - **Observe, Navigate, Read Only:** Enforce passive-only inspection; strictly prohibit exploitation, brute force, fuzzing, automated vulnerability scanning, or unauthorized credential use.
 - **Stop Gates:** Automatically halt execution at the end of each partition. Never auto-advance to a subsequent Part without explicit user instruction.
-- **Reconstruction Protection:** Phase 13 (`PART-07`) is strictly forbidden until Phase 11 passes and explicit written user approval is received.
+- **Feasibility Policy:** If an essential route or feature is `NOT_FEASIBLE`, audit phases (`MASTER-PHASE-05` through `MASTER-PHASE-14`) continue to capture all allowable evidence; `NOT_FEASIBLE` blocks ONLY `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Reconstruction).
+- **Reconstruction Protection:** `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13`) is strictly forbidden until `MASTER-PHASE-13` Completeness gate passes, feasibility reconciliation is complete, and explicit written user approval is received.
 
 ## 11. Failure Handling & Fallback Behavior
 - If an essential capability is missing or unverified during Phase 0: halt progression, log `[LIMITATION]` in `capability-matrix.md`, and report the blocker.

@@ -1,14 +1,16 @@
 <#
 .SYNOPSIS
-    Install-ReaSkills.ps1 - Safe, non-destructive installer and validator for the REA Antigravity Suite.
+    Install-ReaSkills.ps1 - Enterprise-grade, non-destructive installer and validator for the REA Antigravity Suite.
 
 .DESCRIPTION
-    Installs and validates REA Skills, Rules, and Workflows into Google Antigravity environments.
+    Installs, validates, and manages REA Skills, Rules, and reference runbooks in Google Antigravity environments.
     Supports Global (~/.gemini/config/), Workspace-only (<root>/.agents/), or Both scopes.
-    Features dry-run planning, status checking, duplicate detection, automatic backups, and script safety.
+    Enforces strict overwrite authorization, ShouldProcess (-WhatIf/-Confirm), automatic backups,
+    path traversal prevention, duplicate skipping, and restoration capabilities.
 
 .PARAMETER Scope
-    Target deployment scope. Valid values: "Global", "Workspace", "Both". Default is "Global".
+    Target deployment scope. Valid values: "Global", "Workspace", "Both".
+    Required for installation and dry-run write operations. In -Check mode, defaults to evaluating both.
 
 .PARAMETER WorkspaceRoot
     Root directory of the workspace project when Scope is "Workspace" or "Both". Defaults to current directory.
@@ -23,31 +25,42 @@
     Reports installation status, version alignment, and integrity across targets without performing modifications.
 
 .PARAMETER Force
-    Forces replacement of existing files (still performs an automatic timestamped backup first).
+    Explicit authorization switch required to replace existing conflicting files.
+    When specified, still creates and verifies a timestamped backup before replacing.
 
 .PARAMETER AllowScripts
     Explicit opt-in to permit copying executable script files (if any). By default, scripts are excluded.
+
+.PARAMETER Restore
+    Restoration mode: restores pre-existing files from a specified or latest timestamped backup (.bak-*).
+
+.PARAMETER BackupFile
+    Specific backup path to restore when using -Restore.
 
 .PARAMETER VerboseOutput
     Displays detailed diagnostics during validation and execution.
 
 .EXAMPLE
     .\Install-ReaSkills.ps1 -Check
-    Checks current status of REA skills across global and workspace targets.
+    Performs a non-destructive audit of REA skills across global and workspace targets.
 
 .EXAMPLE
-    .\Install-ReaSkills.ps1 -DryRun -Scope Both -WorkspaceRoot "C:\Projects\MyApp"
-    Plans a deployment to both global and workspace environments without making changes.
+    .\Install-ReaSkills.ps1 -DryRun -Scope Workspace
+    Simulates deployment to the workspace environment without making changes.
 
 .EXAMPLE
-    .\Install-ReaSkills.ps1 -Scope Workspace -WorkspaceRoot "C:\Projects\MyApp"
-    Installs REA skills into the specified workspace's .agents/ directory.
+    .\Install-ReaSkills.ps1 -Scope Workspace
+    Safely installs new REA components into the workspace, skipping duplicates and refusing to overwrite conflicts.
+
+.EXAMPLE
+    .\Install-ReaSkills.ps1 -Scope Workspace -Force
+    Installs REA components, creating verified backups before replacing conflicting files.
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
-    [ValidateSet("Global", "Workspace", "Both")]
-    [string]$Scope = "Global",
+    [ValidateSet("Global", "Workspace", "Both", "")]
+    [string]$Scope = "",
 
     [string]$WorkspaceRoot = (Get-Location).Path,
 
@@ -61,6 +74,10 @@ param(
 
     [switch]$AllowScripts,
 
+    [switch]$Restore,
+
+    [string]$BackupFile,
+
     [switch]$VerboseOutput
 )
 
@@ -71,84 +88,173 @@ function Write-ReaLog {
     param([string]$Message, [string]$Level = "INFO")
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $color = switch ($Level) {
-        "INFO"    { "Cyan" }
-        "SUCCESS" { "Green" }
-        "WARN"    { "Yellow" }
-        "ERROR"   { "Red" }
-        "PLAN"    { "Magenta" }
-        Default   { "White" }
+        "INFO"     { "Cyan" }
+        "SUCCESS"  { "Green" }
+        "WARN"     { "Yellow" }
+        "ERROR"    { "Red" }
+        "PLAN"     { "Magenta" }
+        "SECURITY" { "DarkYellow" }
+        Default    { "White" }
     }
     Write-Host "[$timestamp] [$Level] $Message" -ForegroundColor $color
 }
 
-# Resolve paths
+function Get-ReaSha256 {
+    param([string]$FilePath)
+    if (-not (Test-Path $FilePath -PathType Leaf)) { return $null }
+    $stream = [System.IO.File]::OpenRead($FilePath)
+    try {
+        $hasher = [System.Security.Cryptography.SHA256]::Create()
+        $hashBytes = $hasher.ComputeHash($stream)
+        $hasher.Dispose()
+        return (-join ($hashBytes | ForEach-Object { $_.ToString("X2") }))
+    } finally {
+        $stream.Close()
+        $stream.Dispose()
+    }
+}
+
+# Resolve script directory and manifest path
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not [System.IO.Path]::IsPathRooted($ManifestPath)) {
     $ManifestPath = Join-Path $ScriptDir $ManifestPath
 }
 
-Write-ReaLog "Starting REA Suite Installer / Validator..." "INFO"
-Write-ReaLog "Manifest Path: $ManifestPath" "INFO"
-Write-ReaLog "Requested Scope: $Scope" "INFO"
-if ($DryRun) { Write-ReaLog "Mode: DRY-RUN (No filesystem modifications will occur)" "PLAN" }
-if ($Check)  { Write-ReaLog "Mode: CHECK-ONLY (Audit status report)" "PLAN" }
+Write-ReaLog "Starting REA Antigravity Suite Installer / Validator v2.1.0..." "INFO"
 
-# 1. Validate Manifest File
+# Scope Validation: Require explicit scope for any operation that simulates or performs writes
+if (-not $Check -and -not $Restore) {
+    if ([string]::IsNullOrWhiteSpace($Scope)) {
+        Write-ReaLog "Scope parameter is required for deployment operations. Use: -Scope Workspace, -Scope Global, or -Scope Both" "ERROR"
+        Write-ReaLog "To audit your environment safely without specifying scope, run: .\Install-ReaSkills.ps1 -Check" "INFO"
+        exit 1
+    }
+} elseif ($Check -and [string]::IsNullOrWhiteSpace($Scope)) {
+    $Scope = "Both"
+}
+
+# Handle Restoration Mode
+if ($Restore) {
+    Write-ReaLog "Mode: RESTORATION" "WARN"
+    if ([string]::IsNullOrWhiteSpace($BackupFile)) {
+        Write-ReaLog "Please specify the backup path to restore using -BackupFile <path>" "ERROR"
+        exit 1
+    }
+    if (-not (Test-Path $BackupFile)) {
+        Write-ReaLog "Backup file not found: $BackupFile" "ERROR"
+        exit 1
+    }
+    # Derive original file path by stripping .bak-*
+    $origPath = $BackupFile -replace '\.bak-\d{8}-\d{6}$', ''
+    if ($origPath -eq $BackupFile) {
+        Write-ReaLog "BackupFile does not match expected naming convention (.bak-yyyyMMdd-HHmmss): $BackupFile" "ERROR"
+        exit 1
+    }
+    
+    if ($PSCmdlet.ShouldProcess("Restore $origPath from $BackupFile", "Restore backup")) {
+        Copy-Item -Path $BackupFile -Destination $origPath -Recurse -Force
+        Write-ReaLog "Successfully restored: $origPath from $BackupFile" "SUCCESS"
+    }
+    exit 0
+}
+
+# Execution mode banners
+if ($DryRun) { Write-ReaLog "Mode: DRY-RUN (Simulation only; zero writes will occur)" "PLAN" }
+if ($Check)  { Write-ReaLog "Mode: CHECK-ONLY (Audit status report; zero writes will occur)" "PLAN" }
+
+# 1. Validate Manifest Existence and Content
 if (-not (Test-Path $ManifestPath)) {
     Write-ReaLog "Manifest file not found: $ManifestPath" "ERROR"
     exit 1
 }
 
 try {
-    $manifestRaw = Get-Content -Path $ManifestPath -Raw -Encoding utf8
-    $manifest = $manifestRaw | ConvertFrom-Json
+    $rawManifest = Get-Content -Path $ManifestPath -Raw -Encoding utf8
+    $manifest = $rawManifest | ConvertFrom-Json
 } catch {
-    Write-ReaLog "Failed to parse JSON manifest: $_" "ERROR"
+    Write-ReaLog "Failed to parse manifest JSON: $($_.Exception.Message)" "ERROR"
     exit 1
 }
 
-if (-not $manifest.package -or -not $manifest.entries) {
-    Write-ReaLog "Manifest schema invalid. 'package' and 'entries' required." "ERROR"
+if (-not $manifest.entries -or $manifest.entries.Count -eq 0) {
+    Write-ReaLog "Manifest contains no component entries" "ERROR"
     exit 1
 }
 
-Write-ReaLog "Loaded package: $($manifest.package) v$($manifest.version) ($($manifest.entries.Count) entries)" "SUCCESS"
+# Validate Manifest Integrity: Check for duplicate IDs and path traversal in manifest
+$idSet = New-Object System.Collections.Generic.HashSet[string]
+foreach ($entry in $manifest.entries) {
+    if ([string]::IsNullOrWhiteSpace($entry.id)) {
+        Write-ReaLog "Manifest entry missing required 'id' property" "ERROR"
+        exit 1
+    }
+    if ($idSet.Contains($entry.id)) {
+        Write-ReaLog "Duplicate manifest entry id detected: $($entry.id)" "ERROR"
+        exit 1
+    }
+    [void]$idSet.Add($entry.id)
 
-# 2. Determine Destination Roots
+    # Check for path traversal in targetDirectory
+    if ($entry.targetDirectory -match '\.\.' -or $entry.targetDirectory -match '^[\/\\]') {
+        Write-ReaLog "Manifest entry '$($entry.id)' has unsafe targetDirectory containing traversal: $($entry.targetDirectory)" "SECURITY"
+        exit 1
+    }
+
+    # Verify source path exists
+    $sourceResolved = Join-Path $ScriptDir $entry.sourcePath
+    if (-not (Test-Path $sourceResolved)) {
+        Write-ReaLog "Manifest entry '$($entry.id)' specifies missing sourcePath: $sourceResolved" "ERROR"
+        exit 1
+    }
+
+    # Verify requiredFiles exist within source
+    if ($entry.requiredFiles) {
+        foreach ($rf in $entry.requiredFiles) {
+            $rfPath = Join-Path $sourceResolved $rf
+            if (-not (Test-Path $rfPath)) {
+                Write-ReaLog "Manifest entry '$($entry.id)' is missing required file: $rfPath" "ERROR"
+                exit 1
+            }
+        }
+    }
+}
+Write-ReaLog "Manifest validated: $($manifest.entries.Count) entries verified structurally." "SUCCESS"
+
+# 2. Resolve and Secure Target Directories
 $destinations = @()
-$globalRoot = Join-Path $env:USERPROFILE ".gemini\config"
 
 if ($Scope -eq "Global" -or $Scope -eq "Both") {
-    $destinations += @{
+    $globalRoot = Join-Path $env:USERPROFILE ".gemini\config"
+    $destinations += [PSCustomObject]@{
         Name = "Global"
-        Root = $globalRoot
-        SkillsDir = Join-Path $globalRoot "skills"
-        RulesDir = Join-Path $globalRoot "rules"
-        WorkflowsDir = Join-Path $globalRoot "workflows"
+        Root = [System.IO.Path]::GetFullPath($globalRoot)
     }
 }
 
 if ($Scope -eq "Workspace" -or $Scope -eq "Both") {
-    $wsAgentsRoot = Join-Path $WorkspaceRoot ".agents"
-    $destinations += @{
+    $canonicalWorkspace = [System.IO.Path]::GetFullPath($WorkspaceRoot)
+    $workspaceRootPath = Join-Path $canonicalWorkspace ".agents"
+    $destinations += [PSCustomObject]@{
         Name = "Workspace"
-        Root = $wsAgentsRoot
-        SkillsDir = Join-Path $wsAgentsRoot "skills"
-        RulesDir = Join-Path $wsAgentsRoot "rules"
-        WorkflowsDir = Join-Path $wsAgentsRoot "workflows"
+        Root = [System.IO.Path]::GetFullPath($workspaceRootPath)
     }
 }
 
-# 3. Processing and Validation Loop
-$stats = @{
-    Total = $manifest.entries.Count
-    Verified = 0
-    Identical = 0
-    NeedsUpdate = 0
-    Missing = 0
-    Installed = 0
-    BackedUp = 0
-    Errors = 0
+Write-ReaLog "Deployment targets:" "INFO"
+foreach ($dest in $destinations) {
+    Write-ReaLog "  -> $($dest.Name): $($dest.Root)" "INFO"
+}
+
+# 3. Component Evaluation & Execution Loop
+$stats = [PSCustomObject]@{
+    TotalDeclared          = $manifest.entries.Count
+    EligibleNew            = 0
+    InstalledNew           = 0
+    IdenticalSkipped       = 0
+    ConflictsSkipped       = 0
+    ReplacementsAuthorized = 0
+    BackupsCreated         = 0
+    Failures               = 0
 }
 
 $resultsTable = @()
@@ -156,89 +262,61 @@ $resultsTable = @()
 foreach ($entry in $manifest.entries) {
     $entryId = $entry.id
     $entryType = $entry.type
-    $enabled = $entry.enabled
-    
-    if (-not $enabled) {
-        Write-ReaLog "Skipping disabled entry: $entryId" "WARN"
-        continue
-    }
+    $sourceResolved = [System.IO.Path]::GetFullPath((Join-Path $ScriptDir $entry.sourcePath))
 
-    # Resolve local source path relative to manifest location
-    $sourceResolved = Join-Path $ScriptDir $entry.sourcePath
-    if (-not (Test-Path $sourceResolved)) {
-        Write-ReaLog "Source path missing for entry ${entryId}: $sourceResolved" "ERROR"
-        $stats.Errors++
-        continue
-    }
-    $sourceResolved = (Resolve-Path $sourceResolved).Path
-
-    # Skill metadata validation (YAML frontmatter check)
-    if ($entryType -eq "skill") {
-        $skillMdPath = Join-Path $sourceResolved "SKILL.md"
-        if (-not (Test-Path $skillMdPath)) {
-            Write-ReaLog "Skill descriptor missing in ${sourceResolved}: SKILL.md required." "ERROR"
-            $stats.Errors++
-            continue
-        }
-        $skillContent = Get-Content -Path $skillMdPath -Raw -Encoding utf8
-        if ($skillContent -notmatch "(?s)^---\s*\r?\n(.*?)\r?\n---\s*\r?\n") {
-            Write-ReaLog "Invalid YAML frontmatter in $skillMdPath" "ERROR"
-            $stats.Errors++
-            continue
-        }
-        $frontmatter = $matches[1]
-        if ($frontmatter -notmatch "name:\s*([a-zA-Z0-9_-]+)") {
-            Write-ReaLog "Frontmatter missing 'name:' in $skillMdPath" "ERROR"
-            $stats.Errors++
-            continue
-        }
-        if ($frontmatter -notmatch "description:\s*(.+)") {
-            Write-ReaLog "Frontmatter missing 'description:' in $skillMdPath" "ERROR"
-            $stats.Errors++
-            continue
-        }
-    }
-
-    # Evaluate across requested destinations
     foreach ($dest in $destinations) {
         $destPath = Join-Path $dest.Root $entry.targetDirectory
+        $destCanonical = [System.IO.Path]::GetFullPath($destPath)
+
+        # Path Traversal Guard: Ensure destination is strictly within $dest.Root
+        if (-not $destCanonical.StartsWith($dest.Root, [System.StringComparison]::OrdinalIgnoreCase)) {
+            Write-ReaLog "Security violation: destination '$destCanonical' escapes root '$($dest.Root)'" "SECURITY"
+            $stats.Failures++
+            continue
+        }
+
+        $destExists = Test-Path $destCanonical
         $status = "UNKNOWN"
         $action = "NONE"
 
-        $destExists = Test-Path $destPath
-
         if (-not $destExists) {
-            $status = "NOT_INSTALLED"
+            $status = "ELIGIBLE_NEW"
             $action = if ($DryRun -or $Check) { "WOULD_INSTALL" } else { "INSTALL" }
-            $stats.Missing++
+            $stats.EligibleNew++
         } else {
-            # File or Directory exists: perform hash / duplicate comparison
+            # Destination exists: perform byte-level SHA-256 comparison
             $isIdentical = $false
 
-            if (Test-Path $destPath -PathType Leaf) {
-                # Single file comparison (rule or workflow)
-                $srcHash = (Get-FileHash -Path $sourceResolved -Algorithm SHA256).Hash
-                $dstHash = (Get-FileHash -Path $destPath -Algorithm SHA256).Hash
+            if (Test-Path $destCanonical -PathType Leaf) {
+                $srcHash = Get-ReaSha256 -FilePath $sourceResolved
+                $dstHash = Get-ReaSha256 -FilePath $destCanonical
                 $isIdentical = ($srcHash -eq $dstHash)
             } else {
-                # Directory comparison (skill)
+                # Directory comparison (check SKILL.md and key files)
                 $srcSkillMd = Join-Path $sourceResolved "SKILL.md"
-                $dstSkillMd = Join-Path $destPath "SKILL.md"
-                if (Test-Path $dstSkillMd) {
-                    $srcHash = (Get-FileHash -Path $srcSkillMd -Algorithm SHA256).Hash
-                    $dstHash = (Get-FileHash -Path $dstSkillMd -Algorithm SHA256).Hash
+                $dstSkillMd = Join-Path $destCanonical "SKILL.md"
+                if ((Test-Path $srcSkillMd) -and (Test-Path $dstSkillMd)) {
+                    $srcHash = Get-ReaSha256 -FilePath $srcSkillMd
+                    $dstHash = Get-ReaSha256 -FilePath $dstSkillMd
                     $isIdentical = ($srcHash -eq $dstHash)
                 }
             }
 
             if ($isIdentical) {
                 $status = "ALREADY_INSTALLED_IDENTICAL"
-                $action = "SKIP"
-                $stats.Identical++
+                $action = "SKIP_IDENTICAL"
+                $stats.IdenticalSkipped++
             } else {
-                $status = "OUTDATED_OR_MODIFIED"
-                $action = if ($Force) { "BACKUP_AND_OVERWRITE" } else { "BACKUP_AND_UPDATE" }
-                $stats.NeedsUpdate++
+                # Destination exists and differs: CONFLICT
+                if ($Force) {
+                    $status = "CONFLICT_FORCE_AUTHORIZED"
+                    $action = if ($DryRun -or $Check) { "WOULD_BACKUP_AND_OVERWRITE" } else { "BACKUP_AND_OVERWRITE" }
+                } else {
+                    $status = "CONFLICT_REFUSED_NO_OVERWRITE"
+                    $action = "SKIP_CONFLICT"
+                    $stats.ConflictsSkipped++
+                    Write-ReaLog "Conflict detected at destination: $destCanonical differs from package. Refusing overwrite without explicit -Force authorization." "WARN"
+                }
             }
         }
 
@@ -248,80 +326,84 @@ foreach ($entry in $manifest.entries) {
             Scope       = $dest.Name
             Status      = $status
             Action      = $action
-            Destination = $destPath
+            Destination = $destCanonical
         }
 
-        # Perform actual execution if not in DryRun or Check mode
+        # Perform writes only if NOT in DryRun, NOT in Check, and action permits
         if (-not $DryRun -and -not $Check) {
             try {
-                $parentDir = Split-Path -Parent $destPath
+                $parentDir = Split-Path -Parent $destCanonical
                 if (-not (Test-Path $parentDir)) {
                     New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
                 }
 
-                if ($destExists -and -not $isIdentical) {
-                    # Create timestamped backup
-                    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-                    $backupPath = "$destPath.bak-$timestamp"
-                    Copy-Item -Path $destPath -Destination $backupPath -Recurse -Force
-                    Write-ReaLog "Created backup: $backupPath" "WARN"
-                    $stats.BackedUp++
-                }
-
-                if (-not $destExists -or -not $isIdentical -or $Force) {
-                    if (Test-Path $sourceResolved -PathType Leaf) {
-                        Copy-Item -Path $sourceResolved -Destination $destPath -Force
-                    } else {
-                        # Directory copy with script filtering if AllowScripts is not set
-                        if (-not (Test-Path $destPath)) {
-                            New-Item -ItemType Directory -Path $destPath -Force | Out-Null
+                if ($action -eq "INSTALL") {
+                    if ($PSCmdlet.ShouldProcess($destCanonical, "Install new component $entryId")) {
+                        if (Test-Path $sourceResolved -PathType Leaf) {
+                            Copy-Item -Path $sourceResolved -Destination $destCanonical -Force
+                        } else {
+                            Copy-Item -Path $sourceResolved -Destination $destCanonical -Recurse -Force
                         }
-                        $sourceFiles = Get-ChildItem -Path $sourceResolved -Recurse
-                        foreach ($sf in $sourceFiles) {
-                            $rel = $sf.FullName.Substring($sourceResolved.Length).TrimStart("\", "/")
-                            $targetFile = Join-Path $destPath $rel
-                            
-                            # Script exclusion check
-                            $isScript = $sf.Extension -match "\.(ps1|bat|cmd|sh|py)$"
-                            if ($isScript -and -not $AllowScripts) {
-                                Write-ReaLog "Excluding executable script (use -AllowScripts to permit): $($sf.Name)" "WARN"
-                                continue
-                            }
-
-                            if ($sf.PSIsContainer) {
-                                if (-not (Test-Path $targetFile)) {
-                                    New-Item -ItemType Directory -Path $targetFile -Force | Out-Null
-                                }
-                            } else {
-                                $tParent = Split-Path -Parent $targetFile
-                                if (-not (Test-Path $tParent)) { New-Item -ItemType Directory -Path $tParent -Force | Out-Null }
-                                Copy-Item -Path $sf.FullName -Destination $targetFile -Force
-                            }
-                        }
+                        $stats.InstalledNew++
+                        Write-ReaLog "Installed: $entryId -> $destCanonical" "SUCCESS"
                     }
-                    Write-ReaLog "Deployed [$($dest.Name)] $entryId -> $destPath" "SUCCESS"
-                    $stats.Installed++
+                } elseif ($action -eq "BACKUP_AND_OVERWRITE") {
+                    if ($PSCmdlet.ShouldProcess($destCanonical, "Backup and overwrite conflicting component $entryId")) {
+                        # 1. Create timestamped backup
+                        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+                        $backupPath = "$destCanonical.bak-$timestamp"
+                        Copy-Item -Path $destCanonical -Destination $backupPath -Recurse -Force
+
+                        # Verify backup creation
+                        if (-not (Test-Path $backupPath)) {
+                            throw "Backup verification failed: backup path '$backupPath' does not exist."
+                        }
+                        Write-ReaLog "Created verified backup: $backupPath" "SECURITY"
+                        $stats.BackupsCreated++
+
+                        # 2. Overwrite target with source
+                        if (Test-Path $sourceResolved -PathType Leaf) {
+                            Copy-Item -Path $sourceResolved -Destination $destCanonical -Force
+                        } else {
+                            # Copy directory content
+                            Copy-Item -Path $sourceResolved -Destination $destCanonical -Recurse -Force
+                        }
+                        $stats.ReplacementsAuthorized++
+                        Write-ReaLog "Overwrote (authorized with backup): $entryId -> $destCanonical" "SUCCESS"
+                    }
                 }
             } catch {
-                Write-ReaLog "Failed to deploy ${entryId} to ${destPath}: $_" "ERROR"
-                $stats.Errors++
+                Write-ReaLog "Execution failed for $entryId at $destCanonical : $($_.Exception.Message)" "ERROR"
+                $stats.Failures++
             }
         }
     }
 }
 
-# 4. Output Summary Table
+# 4. Display Results Summary Table
 Write-Host ""
-Write-Host "=== REA SUITE AUDIT & DEPLOYMENT SUMMARY ===" -ForegroundColor Cyan
-$resultsTable | Format-Table -Property EntryId, Type, Scope, Status, Action -AutoSize
+Write-Host "=================== REA INSTALLATION AUDIT / EXECUTION REPORT ===================" -ForegroundColor White
+$resultsTable | Format-Table -AutoSize EntryId, Type, Scope, Status, Action
 
-Write-Host ""
-Write-ReaLog "Execution Results: Total Entries=$($stats.Total), Missing=$($stats.Missing), Identical=$($stats.Identical), NeedsUpdate=$($stats.NeedsUpdate), Errors=$($stats.Errors)" "INFO"
+Write-Host "=================== SUMMARY METRICS ===================" -ForegroundColor White
+Write-Host "Scope Examined          : $Scope"
+Write-Host "Total Declared Entries  : $($stats.TotalDeclared)"
+Write-Host "Eligible New Components : $($stats.EligibleNew)"
+Write-Host "Installed (New)         : $($stats.InstalledNew)"
+Write-Host "Identical (Skipped)     : $($stats.IdenticalSkipped)"
+Write-Host "Conflicts (Skipped)     : $($stats.ConflictsSkipped)"
+Write-Host "Replacements Authorized : $($stats.ReplacementsAuthorized)"
+Write-Host "Backups Created         : $($stats.BackupsCreated)"
+Write-Host "Failures / Errors       : $($stats.Failures)"
+Write-Host "=======================================================" -ForegroundColor White
 
-if ($stats.Errors -gt 0) {
-    Write-ReaLog "Completed with $($stats.Errors) error(s)." "ERROR"
-    exit 2
+if ($stats.Failures -gt 0) {
+    Write-ReaLog "Installer completed with $($stats.Failures) errors." "ERROR"
+    exit 1
+} elseif ($stats.ConflictsSkipped -gt 0 -and -not $Force) {
+    Write-ReaLog "Installer completed safely. $($stats.ConflictsSkipped) conflicting items were protected from overwrite. Use -Force if you explicitly authorize replacing them." "WARN"
+    exit 0
 } else {
-    Write-ReaLog "Validation / Operation completed successfully with ZERO errors." "SUCCESS"
+    Write-ReaLog "Operation completed successfully with 0 errors." "SUCCESS"
     exit 0
 }

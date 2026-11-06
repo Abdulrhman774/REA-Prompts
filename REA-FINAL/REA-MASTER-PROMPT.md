@@ -58,43 +58,46 @@ REA distinguishes five distinct operational capability states:
 
 ## 4. The 17 Master Orchestration Phases
 
-REA coordinates the full reverse-engineering lifecycle through 17 ordered, gated phases:
+REA coordinates the full reverse-engineering lifecycle through 17 ordered, gated phases (governed authoritatively by [`REA-PHASE-REGISTRY.md`](./REA-PHASE-REGISTRY.md)):
 
 ```
-[Phase 01: Documentation Loading]
+[MASTER-PHASE-01: Documentation Loading & Verification]
        │
-[Phase 02: Workspace Inspection]
+[MASTER-PHASE-02: Workspace Inspection & Baseline Verification]
        │
-[Phase 03: Skill Discovery]
+[MASTER-PHASE-03: Environment Probing & Tool Discovery]
        │
-[Phase 04: Capability Discovery & Provider Verification]
+[MASTER-PHASE-04: Capability Discovery & Provider Verification]
        │
-[Phase 05: Skill Registry Construction]
+[MASTER-PHASE-05: Skill Registry Construction]
        │
-[Phase 06: Initial Target Baseline Assessment]
+[MASTER-PHASE-06: Initial Target Baseline Assessment]
        │
-[Phase 07: Provisional Feasibility Gate (10 Dimensions)] ──► [Halt if NOT FEASIBLE]
+[MASTER-PHASE-07: Provisional Feasibility Gate (10 Dimensions)] ──► [Block Reconstruction if NOT_FEASIBLE; Continue Audits]
        │
-[Phase 08: Evidence Acquisition (Discovery & Inspection)]
+[MASTER-PHASE-08: Evidence Acquisition (Discovery & Inspection)]
        │
-[Phase 09: Evidence Validation & Sanitization]
+[MASTER-PHASE-09: Evidence Validation & Sanitization]
        │
-[Phase 10: Application Intelligence Graph Construction (JSONL)]
+[MASTER-PHASE-10: Application Intelligence Graph Construction (JSONL)]
        │
-[Phase 11: Quality, SEO, Accessibility & Passive Security Audits]
+[MASTER-PHASE-11: Quality, SEO, Accessibility & Passive Security Audits]
        │
-[Phase 12: Completeness Verification & Final Feasibility Reconciliation]
+[MASTER-PHASE-12: Completeness Verification & Final Feasibility Reconciliation]
        │
-[Phase 13: Framework-Agnostic IR Freeze (ir.json)]
+[MASTER-PHASE-13: Framework-Agnostic IR Freeze (ir.json)]
        │
-[Phase 14: Final Audit Review & Master Report Delivery]
+[MASTER-PHASE-14: Final Audit Review & Master Report Delivery]
        │
-[Phase 15: Mandatory Reconstruction Stop Gate] ──────────► [REQUIRES WRITTEN APPROVAL]
+[MASTER-PHASE-15: Mandatory Reconstruction Stop Gate] ──────────► [REQUIRES WRITTEN APPROVAL]
        │
-[Phase 16: Frontend-Only Reconstruction (Phase 13 / PART-07)]
+[MASTER-PHASE-16: Frontend-Only Reconstruction (PART-07-LOCAL-PHASE-13)]
        │
-[Phase 17: Local Build, 8-Dimension QA & Final Acceptance]
+[MASTER-PHASE-17: Local Build, 8-Dimension QA & Final Acceptance]
 ```
+
+> [!NOTE]
+> Phase numbering is authoritatively governed by [`REA-PHASE-REGISTRY.md`](./REA-PHASE-REGISTRY.md). `MASTER-PHASE-13` designates **Framework-Agnostic IR Freeze**, while `MASTER-PHASE-16` designates **Frontend-Only Reconstruction** (`PART-07-LOCAL-PHASE-13`).
 
 ---
 
@@ -139,8 +142,8 @@ Execute `rea-feasibility-assessment` across the 10 dimensions:
 9. Available inspection capabilities vs required depth.
 10. Potential frontend reconstruction blockers.
 
-Assign provisional feasibility: `FEASIBLE`, `PARTIALLY FEASIBLE`, `NOT FEASIBLE`, or `UNKNOWN`.
-If an essential route is `NOT FEASIBLE`: halt, present blockers, and request user guidance.
+Assign provisional feasibility to the entry Route and identifiable Features using canonical classifications: `FEASIBLE`, `PARTIALLY_FEASIBLE`, `NOT_FEASIBLE`, or `UNKNOWN`.
+If an essential route is `NOT_FEASIBLE`: do NOT cancel or halt the audit lifecycle; continue permitted investigation across `MASTER-PHASE-08` through `MASTER-PHASE-14` to capture all allowable architecture, security, and quality intelligence. `NOT_FEASIBLE` blocks ONLY `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Frontend Reconstruction). Present the blocker, explain its impact, and document scope alternatives in `feasibility-assessment.md`.
 
 ### Phase 08 & 09: Evidence Acquisition, Discovery & Validation
 Execute `PART-02` (Discovery and Page Analysis) and `PART-03` (Interactions, Design, Responsive):
@@ -199,15 +202,16 @@ Upon receiving written approval:
 ### Phase 17: Local Build, 8-Dimension QA & Final Acceptance
 Execute `rea-validation`:
 - Run local frontend build (`npm run build`). Verify zero compilation errors.
-- Evaluate the Eight Acceptance Dimensions:
-  1. Visual Fidelity (using `render.local` if Supported; else limitation).
-  2. Route Coverage.
-  3. Components & Layout.
+- Evaluate the Canonical Eight Acceptance Dimensions:
+  1. Visual fidelity (using `render.local` if Supported; else limitation).
+  2. Route coverage.
+  3. Components and layout.
   4. Interactions.
-  5. Client-Side State.
-  6. Responsive Behavior (including 390px mobile).
-  7. Assets (Authorized only).
-  8. Functional Consistency.
+  5. Client-side state.
+  6. Responsive behavior (including 390px mobile reference).
+  7. Assets (Authorized only; unauthorized rendered as placeholders).
+  8. Functional consistency (mock API contracts, error/empty states).
+- Assign status `VERIFIED` or `NOT_VERIFIED` (with documented `LIMITATION`) for each dimension.
 - Save `acceptance-matrix.md` and `reconstruction-report.md`.
 - Present final deliverable package and run instructions.
 
@@ -219,6 +223,6 @@ Execute `rea-validation`:
 2. **Untouched Source Documents:** The 12 original source documents in the workspace must never be overwritten, modified, or reordered.
 3. **No Unverified Claims:** Every substantive statement must cite an E-ID. Without evidence, use `[UNKNOWN]`.
 4. **Zero Backend Code:** Never implement or deploy a backend server, database, or server-side authentication engine.
-5. **Reconstruction Requires Written Approval:** Never launch Phase 13 without written user authorization following Phase 12 completion.
+5. **Reconstruction Requires Written Approval:** Never launch `MASTER-PHASE-16` (`PART-07-LOCAL-PHASE-13` Frontend Reconstruction) without explicit, separate written user authorization following `MASTER-PHASE-13` (IR Freeze) and `MASTER-PHASE-14`/`15` completion.
 6. **No External Dependency Installation:** Never install npm/pip dependencies or execute external scripts without prior explicit permission.
 7. **Absolute Redaction:** Never record or reproduce real passwords, auth tokens, session identifiers, patient records, or personal data.

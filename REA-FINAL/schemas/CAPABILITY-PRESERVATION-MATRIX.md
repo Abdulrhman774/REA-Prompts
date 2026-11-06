@@ -408,14 +408,27 @@ Unified:
 
 | ID | Extension / Capability | Type | Tier | Added at | Source / Decision |
 |---|---|---|---|---|---|
-| N-23 | Provisional Feasibility Assessment Gate (10 dimensions, per-route/feature classifications) | Feasibility | MVP | PART 01 › DO 13–15; easibility-assessment.md | Work Order §6 |
-| N-24 | Final Feasibility Reconciliation (reconcile provisional vs final evidence, append-only) | Feasibility | MVP | PART 06 › DO 12; inal-feasibility-reconciliation.md | Work Order §6.3 |
-| N-25 | Dedicated Capabilities: inspect.initial-html and nalyze.rendering-mode | Skill Catalog | MVP | REA-SCHEMAS.md §2.2; PART 01 DO 8; PART 04 Phase 6 | Work Order §7 |
+| N-23 | Provisional Feasibility Assessment Gate (10 dimensions, per-route/feature classifications) | Feasibility | MVP | PART 01 › DO 13–15; feasibility-assessment.md | Work Order §6 |
+| N-24 | Final Feasibility Reconciliation (reconcile provisional vs final evidence, append-only) | Feasibility | MVP | PART 06 › DO 12; final-feasibility-reconciliation.md | Work Order §6.3 |
+| N-25 | Dedicated Capabilities: inspect.initial-html and analyze.rendering-mode | Skill Catalog | MVP | REA-SCHEMAS.md §2.2; PART 01 DO 8; PART 04 Phase 6 | Work Order §7 |
 | N-26 | Rendering Mode Classification per route (CSR / SSR / SSG / Hybrid / UNKNOWN) | Technology | MVP | PART 04 › Phase 6; Route.renderingMode | Work Order §7 |
 | N-27 | Component Origin Classification (server / client / unknown) | Architecture | MVP | PART 02 › Phase 2; PART 04 › Phase 7; Component.origin | Work Order §7 |
-| N-28 | Eight-Dimension Acceptance Framework (Verified / Not verified / Limitation) | Acceptance | MVP | PART 07 › §7; cceptance-matrix.md | Work Order §11 |
+| N-28 | Eight-Dimension Acceptance Framework (VERIFIED / NOT_VERIFIED with LIMITATION) | Acceptance | MVP | PART 07 › §7; acceptance-matrix.md | Work Order §11 |
 | N-29 | External Adapter Provenance Schema & Security Trust Boundaries | Provenance & Security | MVP | REA-SCHEMAS.md §9; PART 00; PART 05 | Work Order §8, §14 |
 | N-30 | Safe UI State Discovery Discipline (observed/safe only; no fuzzing/destructive) | Safety | MVP | PART 03 › Phase 3 DO | Work Order §12 |
-| N-31 | Antigravity Packaging Separation (Rules, Skills, Workflows, MCP separation) | Packaging | MVP | ntigravity/rules/, ntigravity/workflows/, skills/ | Work Order §15, §16 |
+| N-31 | Antigravity Packaging Separation (Rules, Skills, Workflows, MCP separation) | Packaging | MVP | antigravity/rules/, antigravity/workflows/, skills/ | Work Order §15, §16 |
 | N-32 | Standalone Master Orchestrator Prompt (single-point independent entry) | Orchestration | MVP | REA-MASTER-PROMPT.md | Work Order §5 |
 
+---
+
+## 12. Stage 2.1 Remediation Extensions (Compatibility, Consistency & Safety)
+
+| ID | Extension / Remediation | Type | Tier | Added at | Source / Purpose |
+|---|---|---|---|---|---|
+| N-33 | Authoritative Master Phase & Part Registry (MASTER-PHASE-XX vs local) | Architecture | MVP | REA-PHASE-REGISTRY.md | Disambiguates IR Freeze (Phase 13) vs Reconstruction |
+| N-34 | Canonical Feasibility Enums & Machine Schema (FEASIBLE, PARTIALLY_FEASIBLE, etc.) | Feasibility | MVP | REA-SCHEMAS.md §8; feasibility-assessment.json | Replaces ambiguous spaced strings with canonical machine enums |
+| N-35 | Canonical Eight-Dimension Acceptance Standardization | Acceptance | MVP | REA-SCHEMAS.md §10; PART 07 §7; SUBSTITUTE-CHECKLIST.md | Standardizes VERIFIED / NOT_VERIFIED (with LIMITATION) |
+| N-36 | Antigravity Rules Syntax Canonicalization (trigger: always_on) | Compatibility | MVP | antigravity/rules/rea-identity.md | Aligns rule frontmatter with official Antigravity spec |
+| N-37 | Antigravity Workflow Deprecation & Migration Framework | Compatibility | MVP | WORKFLOW-MIGRATION-GUIDE.md & workflow headers | Preserves runbooks while mapping to active slash-command skills |
+| N-38 | Enterprise Installer Safety with ShouldProcess, Scope Enforcement & Backups | Installer Security | MVP | Install-ReaSkills.ps1 & skills-manifest.json | Prohibits silent overwrites; enforces -Scope; supports -Restore |
+| N-39 | External Browser Toolkit Adapter Classification as DESIGN_ONLY — NOT VERIFIED | Honesty & Safety | MVP | ADAPTER-DESIGN.md, ADAPTER-SPEC.md, SKILL.md | Clarifies specification-only status; enforces fail-closed redaction |

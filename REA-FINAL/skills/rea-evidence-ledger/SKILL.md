@@ -28,7 +28,7 @@ Activate this skill whenever capturing raw observations, recording discoveries, 
 - Integrity validation reports confirming zero unlabeled claims, zero unevidenced technologies, and zero unredacted secrets.
 
 ## 6. Relevant REA Phases
-- **Phases 0–13:** Continuous across every phase of discovery, analysis, auditing, and reconstruction verification.
+- **Master Phases 01–17:** Continuous across every phase of discovery, analysis, auditing, and reconstruction verification (governed by `REA-PHASE-REGISTRY.md`).
 
 ## 7. Required Capabilities
 - Filesystem read/append access to audit directory markdown files.

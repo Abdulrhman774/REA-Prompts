@@ -4,7 +4,11 @@
 **Package:** `rea-browser-toolkit-adapter`  
 **Schema Version:** 1.0  
 **Target Toolkit:** `Dvurechensky/Browser.Reverse.Engineering.Toolkit`  
-**Status:** SPECIFICATION COMPLETE
+**Status:** DESIGN_ONLY — NOT VERIFIED (No executable source code present; specification only)
+
+> [!NOTE]
+> **PROVENANCE ENFORCEMENT:**  
+> All external capture data ingested through this specification is strictly labeled `IMPORTED` (or `INFERRED`). External telemetry must **NEVER** be labeled `OBSERVED`, which is reserved exclusively for direct observations verified by REA.
 
 ---
 
@@ -52,7 +56,7 @@ The adapter expects capture bundles conforming to the standard BRET layout:
 
 | BRET Capture Field | REA Evidence / Graph Target | Normalization Transform | Label Assigned |
 |---|---|---|---|
-| `routes.sitemap[].url` | `Route.urls[]` | Strip query secrets, validate against `ALLOWED_SCOPE` | `OBSERVED` (in capture) / `IMPORTED` |
+| `routes.sitemap[].url` | `Route.urls[]` | Strip query secrets, validate against `ALLOWED_SCOPE` | `IMPORTED` |
 | `routes.sitemap[].statusCode` | `Route.attrs.statusCode` | Direct integer mapping | `IMPORTED` |
 | `pages[].dom.html` | `ComponentInstance.domLocator` | Extract semantic landmarks; strip inline scripts | `IMPORTED` |
 | `pages[].styles.colors[]` | `DesignToken.attrs.value` | Normalize to hex/rgb; set `valueKind: "authored"` | `IMPORTED` |

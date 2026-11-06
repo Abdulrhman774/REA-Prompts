@@ -252,21 +252,98 @@ Every element carries `label`, `confidence` (where required), and `evidence`.
 
 ## 8. Feasibility Assessment Schema (additive)
 
-Record in `feasibility-assessment.md` (Phase 0) and `final-feasibility-reconciliation.md` (Phase 11):
+Record in `feasibility-assessment.md` (Phase 0 / `MASTER-PHASE-04`) and `final-feasibility-reconciliation.md` (Phase 11 / `MASTER-PHASE-13`):
 
+### 8.1 Markdown Table Format
 ```markdown
 | Target Entity | Classification | Difficulty | Reason | Evidence IDs | Blockers / Limitations | Reconstruction Impact |
 |---|---|---|---|---|---|---|
-| Route: / | FEASIBLE | Low | Standard CSR React DOM observable | E-001, E-002 | None | Reconstruct as client component |
-| Feature: Auth | PARTIALLY FEASIBLE | Medium | Login UI observable; SSO opaque | E-015, E-018 | SSO backend redirect | Local mock auth only |
+| Route: / | FEASIBLE | LOW | Standard CSR React DOM observable | E-001, E-002 | None | Reconstruct as client component |
+| Feature: Auth | PARTIALLY FEASIBLE | MEDIUM | Login UI observable; SSO opaque | E-015, E-018 | SSO backend redirect | Local mock auth only |
 ```
 
-Valid Classifications: `FEASIBLE`, `PARTIALLY FEASIBLE`, `NOT FEASIBLE`, `UNKNOWN`.  
-Valid Difficulty: `Low`, `Medium`, `High`, `Unknown` (all qualitative, marked `[INFERRED]`).
+### 8.2 Canonical Enum Mapping Table
+
+| Human-Readable Markdown Label | Canonical JSON Machine Value | Description |
+|---|---|---|
+| `FEASIBLE` | `FEASIBLE` | Observable, actionable evidence available, reconstructible within frontend boundaries. |
+| `PARTIALLY FEASIBLE` | `PARTIALLY_FEASIBLE` | Core UI observable; specific dependencies blocked and requiring mock/placeholder. |
+| `NOT FEASIBLE` | `NOT_FEASIBLE` | Essential UI/interactions cannot be inspected/reconstructed. Blocks Phase 16 reconstruction only. |
+| `UNKNOWN` | `UNKNOWN` | Insufficient evidence to determine feasibility at the current phase. |
+
+Qualitative Difficulty Values: `LOW`, `MEDIUM`, `HIGH`, `UNKNOWN` (marked `[INFERRED]`).
+
+### 8.3 Machine-Readable JSON Schema (`feasibility-assessment.json`)
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReaFeasibilityAssessment",
+  "type": "object",
+  "required": ["overall", "status", "technicalDimensions", "routeDecisions", "featureDecisions"],
+  "properties": {
+    "overall": {
+      "type": "string",
+      "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PROVISIONAL", "FINAL"]
+    },
+    "technicalDimensions": {
+      "type": "object",
+      "properties": {
+        "authentication_and_session": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "dynamic_and_antibot": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "network_and_protocol": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "client_architecture_and_hydration": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "route_complexity_and_depth": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "responsive_and_viewport": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "design_system_and_asset": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "storage_and_state": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "api_surface": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+        "build_and_reconstruction": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] }
+      }
+    },
+    "routeDecisions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["decision", "reason", "evidence", "status"],
+        "properties": {
+          "decision": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+          "difficulty": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"] },
+          "reason": { "type": "string" },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["PROVISIONAL", "FINAL"] },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "featureDecisions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["decision", "reason", "evidence", "status"],
+        "properties": {
+          "decision": { "type": "string", "enum": ["FEASIBLE", "PARTIALLY_FEASIBLE", "NOT_FEASIBLE", "UNKNOWN"] },
+          "difficulty": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"] },
+          "reason": { "type": "string" },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["PROVISIONAL", "FINAL"] },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
+```
 
 ---
 
-## 9. External Adapter Provenance Schema (additive)
+## 9. External Adapter Provenance Schema (additive — DESIGN_ONLY / NOT VERIFIED)
+
+> [!NOTE]
+> The Browser Toolkit adapter implementation status is **`DESIGN_ONLY — NOT VERIFIED`**. The schema below specifies the contract for external capture imports if an executable adapter is authorized and implemented in the future. External capture data is strictly labeled `IMPORTED` (or `INFERRED`), never `OBSERVED`.
 
 When importing evidence via an optional external adapter:
 
@@ -275,7 +352,7 @@ When importing evidence via an optional external adapter:
   "id": "E-201",
   "label": "IMPORTED",
   "where": "https://example.com/api/v1/data",
-  "what": "Observed JSON response keys: id, title, created_at",
+  "what": "Imported JSON response keys from external capture: id, title, created_at",
   "how": "adapter.browser-toolkit::SiteReconstructor",
   "provenance": {
     "sourceTool": "Dvurechensky/Browser.Reverse.Engineering.Toolkit",
@@ -289,17 +366,28 @@ When importing evidence via an optional external adapter:
 
 ---
 
-## 10. Eight-Dimension Acceptance Schema (additive)
+## 10. Canonical Eight-Dimension Acceptance Schema (additive)
 
-Record in `acceptance-matrix.md` (Phase 13):
+Record in `acceptance-matrix.md` and `acceptance-matrix.json` (`MASTER-PHASE-17` / `PART-07-LOCAL-PHASE-13.8`):
 
-| Dimension | Status | Evidence Supporting | Routes / Features Covered | Discrepancies / Gaps | Limitations Noted |
+### 10.1 Acceptance Table Format
+
+| Canonical Dimension | Status | Supporting Evidence | Covered Routes / Features | Gaps / Deviations | Documented Limitations |
 |---|---|---|---|---|---|
-| 1. Visual Fidelity | Verified / Not verified / Limitation | E-IDs, screenshot diffs | All primary routes | None | render.local supported |
-| 2. Route Coverage | Verified / Not verified / Limitation | E-IDs, route table | 100% in-scope routes | Route /admin blocked | Auth required |
-| 3. Components & Layout | Verified / Not verified / Limitation | Component map | Layouts, Nav, Cards | None | None |
-| 4. Interactions | Verified / Not verified / Limitation | Interaction matrix | Modals, tabs, inputs | Untested payment flow | Safe exploration limit |
-| 5. Client-Side State | Verified / Not verified / Limitation | State model | Cart, theme, session | None | None |
-| 6. Responsive Behavior | Verified / Not verified / Limitation | Viewport screenshots | 390px, 768px, 1440px | Minor overflow on 320px | 320px unverified |
-| 7. Assets | Verified / Not verified / Limitation | Asset register | Icons, logos, fonts | Non-authorized replaced | Placeholders used |
-| 8. Functional Consistency| Verified / Not verified / Limitation | Mock tests | Synthetic API responses| Real backend excluded | Frontend mock only |
+| 1. Visual fidelity | VERIFIED | E-001, screenshot diffs | Primary routes: /, /about | None | render.local supported |
+| 2. Route coverage | VERIFIED | E-010, route table | 100% in-scope routes | Route /admin excluded | Auth required (documented) |
+| 3. Components and layout | VERIFIED | Component inventory | Layouts, Nav, Cards | None | None |
+| 4. Interactions | VERIFIED | Interaction matrix | Modals, tabs, inputs | Untested checkout | Non-destructive boundary |
+| 5. Client-side state | VERIFIED | State model | Cart, theme, session | None | None |
+| 6. Responsive behavior | VERIFIED | Viewport records | 390px, 768px, 1440px | Minor overflow on 320px | 320px unverified (limitation) |
+| 7. Assets | VERIFIED | Asset register | Icons, logos, fonts | Non-authorized replaced | Explicit placeholders used |
+| 8. Functional consistency | VERIFIED | Mock test logs | Synthetic API endpoints | Real backend excluded | Mock responses only |
+
+Allowed Status Values:
+- `VERIFIED`: Measured and confirmed with direct evidence.
+- `NOT_VERIFIED`: Unmeasured or blocked; MUST include a documented `LIMITATION`.
+
+Supporting sub-aspects map cleanly beneath these canonical dimensions:
+- Accessibility (WCAG AA, ARIA landmarks, keyboard nav) -> evaluated under *Visual fidelity* and *Interactions*.
+- Backend mock fidelity -> evaluated under *Functional consistency*.
+- Code architecture & TypeScript types -> evaluated under *Components and layout*.

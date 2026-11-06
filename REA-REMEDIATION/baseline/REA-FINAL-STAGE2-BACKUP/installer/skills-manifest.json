@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "package": "rea-antigravity-suite",
+  "version": "1.1.0",
+  "description": "REA (Reverse Engineering Agent) unified Antigravity skills, rules, and workflows package",
+  "author": "REA Architecture & Engineering",
+  "entries": [
+    {
+      "id": "rea-orchestrator",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-orchestrator",
+      "targetDirectory": "skills/rea-orchestrator",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Master orchestrator for REA sessions, gating, and approval management"
+    },
+    {
+      "id": "rea-evidence-ledger",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-evidence-ledger",
+      "targetDirectory": "skills/rea-evidence-ledger",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Evidence and findings management, E-IDs, F-IDs, and strict provenance tracking"
+    },
+    {
+      "id": "rea-application-graph",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-application-graph",
+      "targetDirectory": "skills/rea-application-graph",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Application Intelligence Graph construction and fragment management"
+    },
+    {
+      "id": "rea-schemas-ir",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-schemas-ir",
+      "targetDirectory": "skills/rea-schemas-ir",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Framework-agnostic Intermediate Representation compiler and validator"
+    },
+    {
+      "id": "rea-feasibility-assessment",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-feasibility-assessment",
+      "targetDirectory": "skills/rea-feasibility-assessment",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "10-dimension feasibility assessment engine and reconciliation gate"
+    },
+    {
+      "id": "rea-rendering-analysis",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-rendering-analysis",
+      "targetDirectory": "skills/rea-rendering-analysis",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "CSR/SSR/SSG/Hybrid rendering mode and component origin analysis"
+    },
+    {
+      "id": "rea-browser-toolkit-adapter",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-browser-toolkit-adapter",
+      "targetDirectory": "skills/rea-browser-toolkit-adapter",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Optional adapter for Dvurechensky's Browser Reverse Engineering Toolkit"
+    },
+    {
+      "id": "rea-frontend-reconstruction",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-frontend-reconstruction",
+      "targetDirectory": "skills/rea-frontend-reconstruction",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Frontend-only reconstruction engine driven by IR and mock contracts"
+    },
+    {
+      "id": "rea-validation",
+      "type": "skill",
+      "source": "local",
+      "sourcePath": "../skills/rea-validation",
+      "targetDirectory": "skills/rea-validation",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": ["SKILL.md"],
+      "description": "Quality assurance and Eight-Dimension Acceptance validation framework"
+    },
+    {
+      "id": "rea-identity-rule",
+      "type": "rule",
+      "source": "local",
+      "sourcePath": "../antigravity/rules/rea-identity.md",
+      "targetDirectory": "rules/rea-identity.md",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": [],
+      "description": "Permanent operational rules and safety restrictions for REA"
+    },
+    {
+      "id": "rea-start-session-workflow",
+      "type": "workflow",
+      "source": "local",
+      "sourcePath": "../antigravity/workflows/rea-start-session.md",
+      "targetDirectory": "workflows/rea-start-session.md",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": [],
+      "description": "Workflow runbook for REA session initialization and Phase 0 preflight"
+    },
+    {
+      "id": "rea-feasibility-check-workflow",
+      "type": "workflow",
+      "source": "local",
+      "sourcePath": "../antigravity/workflows/rea-feasibility-check.md",
+      "targetDirectory": "workflows/rea-feasibility-check.md",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": [],
+      "description": "Workflow runbook for provisional and final feasibility evaluations"
+    },
+    {
+      "id": "rea-run-phase-workflow",
+      "type": "workflow",
+      "source": "local",
+      "sourcePath": "../antigravity/workflows/rea-run-phase.md",
+      "targetDirectory": "workflows/rea-run-phase.md",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": [],
+      "description": "Workflow runbook for executing an individual REA partition with gating"
+    },
+    {
+      "id": "rea-approve-reconstruction-workflow",
+      "type": "workflow",
+      "source": "local",
+      "sourcePath": "../antigravity/workflows/rea-approve-reconstruction.md",
+      "targetDirectory": "workflows/rea-approve-reconstruction.md",
+      "enabled": true,
+      "version": "1.1.0",
+      "requiredFiles": [],
+      "description": "Gated workflow runbook for authorizing Phase 13 frontend reconstruction"
+    }
+  ]
+}

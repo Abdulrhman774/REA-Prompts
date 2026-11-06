@@ -1,4 +1,4 @@
-﻿# SUBSTITUTE CHECKLIST â€” NOT THE ORIGINAL APPENDIX E
+# SUBSTITUTE CHECKLIST — NOT THE ORIGINAL APPENDIX E
 
 **Status of this document:** substitute, not original.
 
@@ -11,106 +11,105 @@ If the original Appendix E or final checklist is later supplied, use it in addit
 ---
 
 ## A. Contract (PART 00)
-- [ ] Every statement carries exactly one label: OBSERVED / INFERRED / UNKNOWN / LIMITATION. â€” PART 00, Evidence and finding contract
-- [ ] Every factual claim cites evidence IDs; otherwise it is `[UNKNOWN]`. â€” PART 00
-- [ ] Every technology, architecture, and vulnerability claim has a confidence (High / Medium / Low). â€” PART 00; PART 06 Phase 11 step 6
-- [ ] No invented version, endpoint, header, metric, selector, path, library name, or measurement. â€” PART 00
-- [ ] Every finding has ID, title, category, label, confidence, severity, evidence, URLs, impact, recommendation. â€” PART 00
-- [ ] No vague claims remain ("modern", "clean", "fast", "secure"â€¦). â€” PART 00
-- [ ] Every operation REA could not perform is marked `[LIMITATION]` with the affected phase and deliverable; no silent tool substitution; no unsupported inspection claimed. â€” PART 00, Absolute tool restriction
-- [ ] Safety rules were respected: observe-only, in-scope, test credentials only, no real or sensitive data, destructive flows stopped at the last safe step, low request volume. â€” PART 00, Safety rules
-- [ ] Secrets found are recorded by location and type only, with values redacted. â€” PART 00
-- [ ] `progress-log.md`, `url-queue`, `evidence-ledger.md`, `findings.md`, `capability-matrix.md`, `checkpoint.md` exist and are current. â€” PART 00, Persistence
-- [ ] A checkpoint was saved after every phase and about every ten pages; no incomplete work is marked complete. â€” PART 00
-- [ ] Prior evidence and original artifacts were not overwritten. â€” PART 00
-- [ ] No partition ran without being explicitly supplied; no reconstruction file exists without written approval. â€” PART 00, Partition protocol
+- [ ] Every statement carries exactly one label: OBSERVED / INFERRED / UNKNOWN / LIMITATION. — PART 00, Evidence and finding contract
+- [ ] Every factual claim cites evidence IDs; otherwise it is `[UNKNOWN]`. — PART 00
+- [ ] Every technology, architecture, and vulnerability claim has a confidence (High / Medium / Low). — PART 00; PART 06 Phase 11 step 6
+- [ ] No invented version, endpoint, header, metric, selector, path, library name, or measurement. — PART 00
+- [ ] Every finding has ID, title, category, label, confidence, severity, evidence, URLs, impact, recommendation. — PART 00
+- [ ] No vague claims remain ("modern", "clean", "fast", "secure"...). — PART 00
+- [ ] Every operation REA could not perform is marked `[LIMITATION]` with the affected phase and deliverable; no silent tool substitution; no unsupported inspection claimed. — PART 00, Absolute tool restriction
+- [ ] Safety rules were respected: observe-only, in-scope, test credentials only, no real or sensitive data, destructive flows stopped at the last safe step, low request volume. — PART 00, Safety rules
+- [ ] Secrets found are recorded by location and type only, with values redacted. — PART 00
+- [ ] `progress-log.md`, `url-queue`, `evidence-ledger.md`, `findings.md`, `capability-matrix.md`, `checkpoint.md` exist and are current. — PART 00, Persistence
+- [ ] A checkpoint was saved after every phase and about every ten pages; no incomplete work is marked complete. — PART 00
+- [ ] Prior evidence and original artifacts were not overwritten. — PART 00
+- [ ] No partition ran without being explicitly supplied; no reconstruction file exists without written approval. — PART 00, Partition protocol
 
 ## B. Phase 0 gate (PART 01)
-- [ ] Relevant REA capabilities are documented with evidence or marked Not verified. â€” PART 01 Gate
-- [ ] No later operation relies on an unverified capability. â€” PART 01 Gate
-- [ ] The target baseline was recorded to the extent REA exposes it. â€” PART 01 Gate
-- [ ] Workspace tracking files exist. â€” PART 01 Gate
+- [ ] Relevant REA capabilities are documented with evidence or marked Not verified. — PART 01 Gate
+- [ ] No later operation relies on an unverified capability. — PART 01 Gate
+- [ ] The target baseline was recorded to the extent REA exposes it. — PART 01 Gate
+- [ ] Workspace tracking files exist. — PART 01 Gate
 
-## C. Phases 1â€“2 gates (PART 02)
-- [ ] The queue is empty or every remaining URL is Blocked with a specific reason. â€” Phase 1 Gate
-- [ ] All discoverable navigation areas were enumerated, including mobile navigation where supported. â€” Phase 1 Gate
-- [ ] Every Visited page has a Page Record. â€” Phase 2 Gate
-- [ ] Every Blocked page has a reason. â€” Phase 2 Gate
-- [ ] No discovered in-scope page was silently skipped. â€” Phase 2 Gate
+## C. Phases 1–2 gates (PART 02)
+- [ ] The queue is empty or every remaining URL is Blocked with a specific reason. — Phase 1 Gate
+- [ ] All discoverable navigation areas were enumerated, including mobile navigation where supported. — Phase 1 Gate
+- [ ] Every Visited page has a Page Record. — Phase 2 Gate
+- [ ] Every Blocked page has a reason. — Phase 2 Gate
+- [ ] No discovered in-scope page was silently skipped. — Phase 2 Gate
 
-## D. Phases 3â€“5 gates (PART 03)
-- [ ] Every interactive element is tested or listed as untested with a specific reason. â€” Phase 3 Gate
-- [ ] Every asserted design value has evidence; unmeasurable values are `[UNKNOWN]`. â€” Phase 4 Gate
-- [ ] Every page type was checked at desktop, tablet, and mobile, or the missing viewport is recorded as `[LIMITATION]`. â€” Phase 5 Gate
+## D. Phases 3–5 gates (PART 03)
+- [ ] Every interactive element is tested or listed as untested with a specific reason. — Phase 3 Gate
+- [ ] Every asserted design value has evidence; unmeasurable values are `[UNKNOWN]`. — Phase 4 Gate
+- [ ] Every page type was checked at desktop, tablet, and mobile, or the missing viewport is recorded as `[LIMITATION]`. — Phase 5 Gate
 
-## E. Phases 6â€“7 gates (PART 04)
-- [ ] No technology is Confirmed without High-confidence direct evidence. â€” Phase 6 Gate
-- [ ] No unsupported version claim. â€” Phase 6 Gate
-- [ ] Every hypothesis lists supporting observations and a confirmation/refutation path. â€” Phase 7 Gate
-- [ ] Every endpoint or contract is directly evidenced or marked `[UNKNOWN]`. â€” Phase 7 Gate
+## E. Phases 6–7 gates (PART 04)
+- [ ] No technology is Confirmed without High-confidence direct evidence. — Phase 6 Gate
+- [ ] No unsupported version claim. — Phase 6 Gate
+- [ ] Every hypothesis lists supporting observations and a confirmation/refutation path. — Phase 7 Gate
+- [ ] Every endpoint or contract is directly evidenced or marked `[UNKNOWN]`. — Phase 7 Gate
 
-## F. Phases 8â€“10 gates (PART 05)
-- [ ] Every page type is covered by the performance, SEO, and accessibility audits; unperformed checks are `[LIMITATION]`, `[UNKNOWN]`, or Not applicable with reasons. â€” Phase 8 Gate
-- [ ] Every passive security check has a status (Checked / Not observable / Not applicable) with evidence or reason. â€” Phase 9 Gate
-- [ ] Every security finding has evidence, severity, confidence, OWASP mapping where applicable, and remediation. â€” Phase 9 Gate
-- [ ] Every conditional module has an explicit activation decision with evidence. â€” Phase 10 Gate
+## F. Phases 8–10 gates (PART 05)
+- [ ] Every page type is covered by the performance, SEO, and accessibility audits; unperformed checks are `[LIMITATION]`, `[UNKNOWN]`, or Not applicable with reasons. — Phase 8 Gate
+- [ ] Every passive security check has a status (Checked / Not observable / Not applicable) with evidence or reason. — Phase 9 Gate
+- [ ] Every security finding has evidence, severity, confidence, OWASP mapping where applicable, and remediation. — Phase 9 Gate
+- [ ] Every conditional module has an explicit activation decision with evidence. — Phase 10 Gate
 
 ## G. Phase 11 gate (PART 06)
-- [ ] Every discovered URL is Analyzed or Blocked with a reason. â€” Phase 11 Gate
-- [ ] Every interactive element is tested or explained. â€” Phase 11 Gate
-- [ ] Design system, stack, architecture, and audits are delivered. â€” Phase 11 Gate
-- [ ] All limitations are documented. â€” Phase 11 Gate
-- [ ] The claim audit leaves no unsupported claims; at least 20% of findings were re-verified, including all Critical and High. â€” Phase 11 Gate and step 4
-- [ ] Contradictions across phases were reconciled. â€” Phase 11 step 5
-- [ ] Completion was not claimed if any condition failed. â€” Phase 11 Gate
+- [ ] Every discovered URL is Analyzed or Blocked with a reason. — Phase 11 Gate
+- [ ] Every interactive element is tested or explained. — Phase 11 Gate
+- [ ] Design system, stack, architecture, and audits are delivered. — Phase 11 Gate
+- [ ] All limitations are documented. — Phase 11 Gate
+- [ ] The claim audit leaves no unsupported claims; at least 20% of findings were re-verified, including all Critical and High. — Phase 11 Gate and step 4
+- [ ] Contradictions across phases were reconciled. — Phase 11 step 5
+- [ ] Completion was not claimed if any condition failed. — Phase 11 Gate
 
 ## H. Phase 12 report and stop gate (PART 06)
-- [ ] The master report contains all 20 required sections; each factual row traces to evidence IDs. â€” Phase 12
-- [ ] Coverage percentage appears only if calculated from the actual coverage matrix. â€” Phase 12 section 1
-- [ ] Remediation effort is labeled as an estimate. â€” Phase 12 section 18
-- [ ] The Final Audit Review was presented and the process stopped; no Phase 13 work and no reconstruction directory exists. â€” Phase 12 Final Audit Review
-- [ ] Explicit written approval for reconstruction was received before PART 07. â€” Phase 12 Final Audit Review
+- [ ] The master report contains all 20 required sections; each factual row traces to evidence IDs. — Phase 12
+- [ ] Coverage percentage appears only if calculated from the actual coverage matrix. — Phase 12 section 1
+- [ ] Remediation effort is labeled as an estimate. — Phase 12 section 18
+- [ ] The Final Audit Review was presented and the process stopped; no Phase 13 work and no reconstruction directory exists. — Phase 12 Final Audit Review
+- [ ] Explicit written approval for reconstruction was received before PART 07. — Phase 12 Final Audit Review
 
 ## I. Additive conditions (unified Prompt only)
-- [ ] **(additive)** `skill-registry.md` exists; each Skill has a status with evidence and a Fallback. â€” PART 01 Gate
-- [ ] **(additive)** Every graph node and edge cites an E-ID; no secret or personal data in any fragment. â€” PART 00 Graph & IR contract
-- [ ] **(additive)** Graph integrity and graph coverage reports exist and have no unexplained failure. â€” PART 06 Phase 11 steps 8â€“9
-- [ ] **(additive)** `ir.json` was frozen only after the Phase 11 gate passed, and markdown and IR agree. â€” PART 06 IR freeze
-- [ ] **(additive)** The STACK-DECISION flag is justified by evidence. â€” PART 04 Phase 6
-- [ ] **(additive)** Every asset has provenance and an authorization status; unapproved assets are not used. â€” PART 02 Phase 2; PART 07 Â§3
+- [ ] **(additive)** `skill-registry.md` exists; each Skill has a status with evidence and a Fallback. — PART 01 Gate
+- [ ] **(additive)** Every graph node and edge cites an E-ID; no secret or personal data in any fragment. — PART 00 Graph & IR contract
+- [ ] **(additive)** Graph integrity and graph coverage reports exist and have no unexplained failure. — PART 06 Phase 11 steps 8–9
+- [ ] **(additive)** `ir.json` was frozen only after the Phase 11 gate passed, and markdown and IR agree. — PART 06 IR freeze
+- [ ] **(additive)** The STACK-DECISION flag is justified by evidence. — PART 04 Phase 6
+- [ ] **(additive)** Every asset has provenance and an authorization status; unapproved assets are not used. — PART 02 Phase 2; PART 07 §3
 
-## J. Final acceptance (PART 07) â€” only after approval
-- [ ] The frontend build succeeds. â€” Phase 13 Final acceptance
-- [ ] Every sufficiently documented page is implemented or has an explicit documented blocker. â€” Phase 13
-- [ ] Implemented routes work locally. â€” Phase 13
-- [ ] Major interactions behave as documented. â€” Phase 13
-- [ ] Responsive behavior was checked (or recorded as a limitation if local rendering is unavailable). â€” Phase 13; Â§7
-- [ ] No backend implementation exists. â€” Phase 13
-- [ ] All mock functionality is clearly distinguished from real backend behavior. â€” Phase 13
-- [ ] Audit artifacts remain untouched. â€” Phase 13
-- [ ] `reconstruction-report.md` exists with build status, route coverage, QA results, limitations, and run instructions. â€” Phase 13 Final report
-- [ ] **(additive)** Every IR node is traced in `ir-traceability.md`; no visual comparison is claimed unless actually performed. â€” PART 07 Â§8 and acceptance criteria
+## J. Final acceptance (PART 07 / MASTER-PHASE-16) — only after approval
+- [ ] The frontend build succeeds. — Phase 13 Final acceptance
+- [ ] Every sufficiently documented page is implemented or has an explicit documented blocker. — Phase 13
+- [ ] Implemented routes work locally. — Phase 13
+- [ ] Major interactions behave as documented. — Phase 13
+- [ ] Responsive behavior was checked (or recorded as a limitation if local rendering is unavailable). — Phase 13; §7
+- [ ] No backend implementation exists. — Phase 13
+- [ ] All mock functionality is clearly distinguished from real backend behavior. — Phase 13
+- [ ] Audit artifacts remain untouched. — Phase 13
+- [ ] `reconstruction-report.md` exists with build status, route coverage, QA results, limitations, and run instructions. — Phase 13 Final report
+- [ ] **(additive)** Every IR node is traced in `ir-traceability.md`; no visual comparison is claimed unless actually performed. — PART 07 §8 and acceptance criteria
 
 ---
 
 ## K. Feasibility & Rendering Gates (additive — consolidated architecture)
-- [ ] **(additive)** Provisional Feasibility Assessment was performed across all 10 dimensions in Phase 0. — PART 01 DO 13
-- [ ] **(additive)** Every discovered route and feature has a feasibility classification (FEASIBLE, PARTIALLY FEASIBLE, NOT FEASIBLE, UNKNOWN). — PART 01 DO 14
-- [ ] **(additive)** No route was marked FEASIBLE solely from a homepage load. — PART 01 DO 14
-- [ ] **(additive)** Difficulty estimates are qualitative only (Low, Medium, High, Unknown) and marked INFERRED. — PART 01 DO 14
-- [ ] **(additive)** Any NOT FEASIBLE route or feature is disclosed with specific blockers before proceeding to reconstruction. — PART 01 DO 15; PART 06 DO 12
-- [ ] **(additive)** Rendering mode (CSR / SSR / SSG / Hybrid / UNKNOWN) is classified per route with direct evidence. — PART 04 Phase 6
-- [ ] **(additive)** Component origin (server / client / unknown) is distinguished based on initial vs dynamic DOM evidence. — PART 02 Phase 2; PART 04 Phase 7
-- [ ] **(additive)** Final Feasibility Reconciliation (inal-feasibility-reconciliation.md) was completed in Phase 11 using append-only records. — PART 06 Phase 11 DO 12
+- [ ] **(additive)** Provisional Feasibility Assessment was performed across all 10 dimensions in Phase 0 / MASTER-PHASE-04. — PART 01 DO 13
+- [ ] **(additive)** Every discovered route and feature has a feasibility classification (`FEASIBLE`, `PARTIALLY_FEASIBLE`, `NOT_FEASIBLE`, `UNKNOWN`). — PART 01 DO 14
+- [ ] **(additive)** No route was marked `FEASIBLE` solely from a homepage load. — PART 01 DO 14
+- [ ] **(additive)** Difficulty estimates are qualitative only (`LOW`, `MEDIUM`, `HIGH`, `UNKNOWN`) and marked `[INFERRED]`. — PART 01 DO 14
+- [ ] **(additive)** Any `NOT_FEASIBLE` route or feature is disclosed with specific blockers; `NOT_FEASIBLE` blocks ONLY reconstruction (MASTER-PHASE-16), while Parts 01–06 audits continue. — PART 01 DO 15; PART 06 DO 12
+- [ ] **(additive)** Rendering mode (`CSR`, `SSR`, `SSG`, `HYBRID`, `UNKNOWN`) is classified per route with direct evidence. — PART 04 Phase 6
+- [ ] **(additive)** Component origin (`server`, `client`, `unknown`) is distinguished based on initial vs dynamic DOM evidence. — PART 02 Phase 2; PART 04 Phase 7
+- [ ] **(additive)** Final Feasibility Reconciliation (`final-feasibility-reconciliation.md`) was completed in Phase 11 / MASTER-PHASE-13 using append-only records. — PART 06 Phase 11 DO 12
 
 ## L. Eight-Dimension Acceptance Framework (additive — consolidated architecture)
-- [ ] **(additive)** Visual Fidelity status is recorded (Verified / Not verified / Limitation) with evidence; no visual comparison is claimed without actual ender.local capability. — PART 07 §7
-- [ ] **(additive)** Route Coverage status is recorded across all in-scope routes and dynamic families. — PART 07 §7
-- [ ] **(additive)** Components and Layout status is recorded with component origin fidelity. — PART 07 §7
+- [ ] **(additive)** Visual fidelity status is recorded (`VERIFIED` / `NOT_VERIFIED` with `LIMITATION`); no visual comparison is claimed without actual `render.local` capability. — PART 07 §7
+- [ ] **(additive)** Route coverage status is recorded across all in-scope routes and dynamic families. — PART 07 §7
+- [ ] **(additive)** Components and layout status is recorded with component origin fidelity. — PART 07 §7
 - [ ] **(additive)** Interactions status is recorded for all mapped UI controls. — PART 07 §7
-- [ ] **(additive)** Client-Side State status is recorded for observable state transitions. — PART 07 §7
-- [ ] **(additive)** Responsive Behavior status is recorded across breakpoints including 390px mobile reference. — PART 07 §7
+- [ ] **(additive)** Client-side state status is recorded for observable state transitions. — PART 07 §7
+- [ ] **(additive)** Responsive behavior status is recorded across breakpoints including 390px mobile reference. — PART 07 §7
 - [ ] **(additive)** Assets status is recorded confirming only Authorized assets are used and placeholders substituted for others. — PART 07 §7
-- [ ] **(additive)** Functional Consistency status is recorded confirming mock contracts match observed API shapes. — PART 07 §7
-- [ ] **(additive)** Final cceptance-matrix.md is delivered with no required dimension left unverified without explicit documented limitations. — PART 07 §8
-
+- [ ] **(additive)** Functional consistency status is recorded confirming mock contracts match observed API shapes. — PART 07 §7
+- [ ] **(additive)** Final `acceptance-matrix.md` is delivered with no required dimension left unverified without explicit documented limitations. — PART 07 §8

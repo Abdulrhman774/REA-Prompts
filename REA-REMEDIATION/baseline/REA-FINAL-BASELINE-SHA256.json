@@ -1,0 +1,260 @@
+﻿[
+    {
+        "RelativePath":  "REA-MASTER-PROMPT.md",
+        "Length":  12764,
+        "SHA256":  "F48CCB4833A92BCA228D8906CD257ED6B01361C8EE5F91E77DD19B391A468D4A",
+        "LastWriteTime":  "2026-11-06 16:47:34"
+    },
+    {
+        "RelativePath":  "adapters\\browser-reverse-engineering-toolkit\\ADAPTER-DESIGN.md",
+        "Length":  7274,
+        "SHA256":  "79386316B9EF4706BCC41C2C23A90FE6AFB02911405EDB050B7F6FBD617C1BDC",
+        "LastWriteTime":  "2026-11-06 16:45:01"
+    },
+    {
+        "RelativePath":  "adapters\\browser-reverse-engineering-toolkit\\ADAPTER-SPEC.md",
+        "Length":  5546,
+        "SHA256":  "3E3ABB992F108FE4EAA2D01EF38CD5777A65BECF69E5231C901C2BED7F408F6D",
+        "LastWriteTime":  "2026-11-06 16:45:20"
+    },
+    {
+        "RelativePath":  "antigravity\\rules\\rea-identity.md",
+        "Length":  2455,
+        "SHA256":  "8ABF17F6C5C5CEF7ACA4E76ECC5D6B06F6F46816470984FCADF39B55658C0B0D",
+        "LastWriteTime":  "2026-11-06 16:45:29"
+    },
+    {
+        "RelativePath":  "antigravity\\workflows\\rea-approve-reconstruction.md",
+        "Length":  3072,
+        "SHA256":  "23A91440735A96238D518F196D5DEFAAC796BE332B107D1F3FC478E53D1E5A7A",
+        "LastWriteTime":  "2026-11-06 16:46:08"
+    },
+    {
+        "RelativePath":  "antigravity\\workflows\\rea-feasibility-check.md",
+        "Length":  1994,
+        "SHA256":  "68D56E3D26C0240CFFBB350A65F8EEA2CA76C9B0B53E8FEC50758F0FABD41FBC",
+        "LastWriteTime":  "2026-11-06 16:45:48"
+    },
+    {
+        "RelativePath":  "antigravity\\workflows\\rea-run-phase.md",
+        "Length":  2306,
+        "SHA256":  "22484CD8DB89D037693A88C33BB3625A82E337CF48342BD34D7FB648B3B25F09",
+        "LastWriteTime":  "2026-11-06 16:45:57"
+    },
+    {
+        "RelativePath":  "antigravity\\workflows\\rea-start-session.md",
+        "Length":  2329,
+        "SHA256":  "D605F3BE3BA49D95EED4FDFCED8A6458B7C8BE61EA2E3BF7AB322DF1FBABE004",
+        "LastWriteTime":  "2026-11-06 16:45:41"
+    },
+    {
+        "RelativePath":  "installer\\Install-ReaSkills.ps1",
+        "Length":  12249,
+        "SHA256":  "9F5D480152B91CA0AF1E63342DA2749D8EEA58B74DEE2FF5D97BD6A6C1B4C9D6",
+        "LastWriteTime":  "2026-11-06 16:48:40"
+    },
+    {
+        "RelativePath":  "installer\\skills-manifest.json",
+        "Length":  5789,
+        "SHA256":  "3D0196F8C9BADA2131127DF1D6308CF9626A55FE931F924AE70D0794A81DE30C",
+        "LastWriteTime":  "2026-11-06 16:46:27"
+    },
+    {
+        "RelativePath":  "parts\\PART-00-MASTER-CONTROL.md",
+        "Length":  20558,
+        "SHA256":  "563D2EB657172CBB8E807B35443DBBCA50EFA0DCDDDFDCF89491A6CB877D24A8",
+        "LastWriteTime":  "2026-11-06 16:37:15"
+    },
+    {
+        "RelativePath":  "parts\\PART-01-PREFLIGHT.md",
+        "Length":  8030,
+        "SHA256":  "D4E94159C321E240A5CAB48CCF673B66F574B593BB8AC04AFB1F69973E2F0761",
+        "LastWriteTime":  "2026-11-06 16:37:40"
+    },
+    {
+        "RelativePath":  "parts\\PART-02-DISCOVERY-AND-PAGE-INSPECTION.md",
+        "Length":  8445,
+        "SHA256":  "426C171C66A731D311D3D5F211CF1488D84A423D3F5B626BFD143730CE2083CC",
+        "LastWriteTime":  "2026-11-06 16:38:09"
+    },
+    {
+        "RelativePath":  "parts\\PART-03-INTERACTIONS-DESIGN-RESPONSIVE.md",
+        "Length":  6613,
+        "SHA256":  "DDAA43F9A1191B0BB1E5EBACF0920382EB81DE6E9DD9F5019D93A272C6CDFF13",
+        "LastWriteTime":  "2026-11-06 16:38:28"
+    },
+    {
+        "RelativePath":  "parts\\PART-04-TECHNOLOGY-ARCHITECTURE.md",
+        "Length":  6515,
+        "SHA256":  "0F94CD1891C14860D4D2E39A68089DFC5B6EE44526DFA221ECCED0F907F1FAC9",
+        "LastWriteTime":  "2026-11-06 16:39:04"
+    },
+    {
+        "RelativePath":  "parts\\PART-05-QUALITY-SECURITY.md",
+        "Length":  8393,
+        "SHA256":  "EAB0516DC107CDE66051FA7F49EBFA4604531CA38F7B7108B56B3191F1F6230E",
+        "LastWriteTime":  "2026-11-06 16:39:24"
+    },
+    {
+        "RelativePath":  "parts\\PART-06-COMPLETENESS-AND-MASTER-REPORT.md",
+        "Length":  8309,
+        "SHA256":  "6762F4A2DA00FC6A4DD952870ADB80D16814361A677EF2E8B02CF012C3C00921",
+        "LastWriteTime":  "2026-11-06 16:39:47"
+    },
+    {
+        "RelativePath":  "parts\\PART-07-FRONTEND-RECONSTRUCTION.md",
+        "Length":  9837,
+        "SHA256":  "ED9C1C258012BCCD6388FAFD7B328AB293A98E491F90A18E2A11C7A569D3A1D6",
+        "LastWriteTime":  "2026-11-06 16:40:25"
+    },
+    {
+        "RelativePath":  "reports\\ANTIGRAVITY-PACKAGING-REPORT.md",
+        "Length":  6031,
+        "SHA256":  "9D281B56CC3B95FAB446FD4C8C46BB1B685773D268DEE60426624E26F5B3D29F",
+        "LastWriteTime":  "2026-11-06 16:52:44"
+    },
+    {
+        "RelativePath":  "reports\\BROWSER-TOOLKIT-EVALUATION-REPORT.md",
+        "Length":  11493,
+        "SHA256":  "F79F590A34B03BBDE67DB15D436535F93CE9A1D41BFF99F802FD78A7D91BE6F0",
+        "LastWriteTime":  "2026-11-06 16:36:08"
+    },
+    {
+        "RelativePath":  "reports\\CAPABILITY-VERIFICATION-REPORT.md",
+        "Length":  6556,
+        "SHA256":  "0120DB1316BAF24F0565D0DBA55843C28971775A64F1D671C0A1FE800D15F054",
+        "LastWriteTime":  "2026-11-06 16:51:30"
+    },
+    {
+        "RelativePath":  "reports\\CONFLICTS-AND-RESOLUTIONS.md",
+        "Length":  10040,
+        "SHA256":  "CAE024322B593DB26E7DE939859E273EBC5CCF4FEAEC838229D74CF306C92259",
+        "LastWriteTime":  "2026-11-06 16:24:36"
+    },
+    {
+        "RelativePath":  "reports\\DOCUMENTATION-CONSISTENCY-REPORT.md",
+        "Length":  5826,
+        "SHA256":  "6431E975657611C7088643100F336EBAB8820F206961A638E613EA09E61240BD",
+        "LastWriteTime":  "2026-11-06 16:53:56"
+    },
+    {
+        "RelativePath":  "reports\\EXISTING-ARCHITECTURE-ANALYSIS.md",
+        "Length":  11483,
+        "SHA256":  "8A66984EA068A2EB3907FE64D807DF86CEC3E274315F763FB58C43A044B2EA64",
+        "LastWriteTime":  "2026-11-06 16:22:35"
+    },
+    {
+        "RelativePath":  "reports\\FILE-CHANGE-REPORT.md",
+        "Length":  9751,
+        "SHA256":  "144859782841CB5C4762847070E8E53015A2F4D75DCD6FD1E3027942048DC318",
+        "LastWriteTime":  "2026-11-06 16:50:46"
+    },
+    {
+        "RelativePath":  "reports\\FINAL-ACCEPTANCE-REPORT.md",
+        "Length":  7672,
+        "SHA256":  "83786724FDC0D4ED59857E6659031FD9A4FB80CB9D58677E7510475843103C18",
+        "LastWriteTime":  "2026-11-06 16:54:17"
+    },
+    {
+        "RelativePath":  "reports\\INSTALLER-VALIDATION-REPORT.md",
+        "Length":  5865,
+        "SHA256":  "3B7A3C18CD8FD9F1F0ECF671BF7FAD53CCD2407BC9FD0FA68C0E6DB7BCFE8516",
+        "LastWriteTime":  "2026-11-06 16:53:04"
+    },
+    {
+        "RelativePath":  "reports\\SECURITY-VALIDATION-REPORT.md",
+        "Length":  5958,
+        "SHA256":  "55061F602ECB52FE6087626509A7DF4B92A88E6F5303EB176AD434DFCC975767",
+        "LastWriteTime":  "2026-11-06 16:53:23"
+    },
+    {
+        "RelativePath":  "reports\\SKILL-DEPENDENCY-MAP.md",
+        "Length":  6704,
+        "SHA256":  "1ED5718DD69451EA623C9FE921DB885ABE8A9ADA2E7C6517FD1534E441354D9A",
+        "LastWriteTime":  "2026-11-06 16:25:49"
+    },
+    {
+        "RelativePath":  "reports\\SKILL-REUSE-AND-COMPATIBILITY-REPORT.md",
+        "Length":  6905,
+        "SHA256":  "F69C72F3DD65F3063295F4D3ADF8A06C89F10BF415C91AB7E015C6B88E3254AF",
+        "LastWriteTime":  "2026-11-06 16:51:08"
+    },
+    {
+        "RelativePath":  "reports\\SOURCE-INVENTORY.md",
+        "Length":  4891,
+        "SHA256":  "DEBCD0154559D847714DD67CEA5806498190CDBDF70C05A5B30762D78BB70615",
+        "LastWriteTime":  "2026-11-06 16:22:35"
+    },
+    {
+        "RelativePath":  "schemas\\CAPABILITY-PRESERVATION-MATRIX.md",
+        "Length":  37710,
+        "SHA256":  "69A605CB2EBE61314C9D28F259F7C71757F220DE5D36A86E463D9E689D2B6C24",
+        "LastWriteTime":  "2026-11-06 16:41:43"
+    },
+    {
+        "RelativePath":  "schemas\\REA-SCHEMAS.md",
+        "Length":  19251,
+        "SHA256":  "C35D02B0B3BFD721A222E7E1828047FEAF73731C4BC4381DDF38609A147F949E",
+        "LastWriteTime":  "2026-11-06 16:41:17"
+    },
+    {
+        "RelativePath":  "schemas\\SUBSTITUTE-CHECKLIST.md",
+        "Length":  10675,
+        "SHA256":  "5BCD9A9FCE57AC2747846343AFB444F946106C12CF05F0B3883CC338A94ACE2F",
+        "LastWriteTime":  "2026-11-06 16:42:08"
+    },
+    {
+        "RelativePath":  "skills\\rea-application-graph\\SKILL.md",
+        "Length":  4529,
+        "SHA256":  "7DECB59EBDCC21CC5D3620401277FEAA2265A359814528DFC430315646BF5BD4",
+        "LastWriteTime":  "2026-11-06 16:42:54"
+    },
+    {
+        "RelativePath":  "skills\\rea-browser-toolkit-adapter\\SKILL.md",
+        "Length":  4577,
+        "SHA256":  "798888FE84E1BDB79D7F1CFDFA08593EF21D735A9FF9779621413E37B90AABF0",
+        "LastWriteTime":  "2026-11-06 16:44:02"
+    },
+    {
+        "RelativePath":  "skills\\rea-evidence-ledger\\SKILL.md",
+        "Length":  4348,
+        "SHA256":  "2E8AAEBC622598FFE1C0383B817BAFE8443B12663C48B616168FCC12CBBC69BD",
+        "LastWriteTime":  "2026-11-06 16:42:38"
+    },
+    {
+        "RelativePath":  "skills\\rea-feasibility-assessment\\SKILL.md",
+        "Length":  5523,
+        "SHA256":  "116AE3A99C594859E7ACD64EEA52DEFD38BA298C17AD0A3E3CADC620D20D47B3",
+        "LastWriteTime":  "2026-11-06 16:43:31"
+    },
+    {
+        "RelativePath":  "skills\\rea-frontend-reconstruction\\SKILL.md",
+        "Length":  5217,
+        "SHA256":  "2CE1B084DC148CB3406572135ABF69CA69642DD06EDA72EB3519AB9F11F68E49",
+        "LastWriteTime":  "2026-11-06 16:44:26"
+    },
+    {
+        "RelativePath":  "skills\\rea-orchestrator\\SKILL.md",
+        "Length":  3837,
+        "SHA256":  "CE7E9E17F2AFB0541FDBFBF3C3A81B57D3E48809C0CA943E888D89C69AD90D65",
+        "LastWriteTime":  "2026-11-06 16:42:22"
+    },
+    {
+        "RelativePath":  "skills\\rea-rendering-analysis\\SKILL.md",
+        "Length":  5252,
+        "SHA256":  "B788A04E1859738D57BC2410567C34D534CDFC0B441D4FE1EB6A9E1BA4F21AC3",
+        "LastWriteTime":  "2026-11-06 16:43:47"
+    },
+    {
+        "RelativePath":  "skills\\rea-schemas-ir\\SKILL.md",
+        "Length":  5340,
+        "SHA256":  "2CA29E40EFB29C5121AA2746A8A108109943939EF631D30D1F371976A9F68BBB",
+        "LastWriteTime":  "2026-11-06 16:43:12"
+    },
+    {
+        "RelativePath":  "skills\\rea-validation\\SKILL.md",
+        "Length":  5051,
+        "SHA256":  "44E2281097C43004FB47E9B24493E418E92A6049C8976D3A03700E89A7ED93B2",
+        "LastWriteTime":  "2026-11-06 16:44:42"
+    }
+]

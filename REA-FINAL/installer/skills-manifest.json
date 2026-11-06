@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "package": "rea-antigravity-suite",
-  "version": "1.1.0",
-  "description": "REA (Reverse Engineering Agent) unified Antigravity skills, rules, and workflows package",
+  "version": "2.1.0",
+  "description": "REA (Reverse Engineering Agent) unified Antigravity skills, rules, and reference runbooks package (Stage 2.1)",
   "author": "REA Architecture & Engineering",
   "entries": [
     {
@@ -12,7 +12,7 @@
       "sourcePath": "../skills/rea-orchestrator",
       "targetDirectory": "skills/rea-orchestrator",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Master orchestrator for REA sessions, gating, and approval management"
     },
@@ -23,7 +23,7 @@
       "sourcePath": "../skills/rea-evidence-ledger",
       "targetDirectory": "skills/rea-evidence-ledger",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Evidence and findings management, E-IDs, F-IDs, and strict provenance tracking"
     },
@@ -34,7 +34,7 @@
       "sourcePath": "../skills/rea-application-graph",
       "targetDirectory": "skills/rea-application-graph",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Application Intelligence Graph construction and fragment management"
     },
@@ -45,7 +45,7 @@
       "sourcePath": "../skills/rea-schemas-ir",
       "targetDirectory": "skills/rea-schemas-ir",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Framework-agnostic Intermediate Representation compiler and validator"
     },
@@ -56,7 +56,7 @@
       "sourcePath": "../skills/rea-feasibility-assessment",
       "targetDirectory": "skills/rea-feasibility-assessment",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "10-dimension feasibility assessment engine and reconciliation gate"
     },
@@ -67,7 +67,7 @@
       "sourcePath": "../skills/rea-rendering-analysis",
       "targetDirectory": "skills/rea-rendering-analysis",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "CSR/SSR/SSG/Hybrid rendering mode and component origin analysis"
     },
@@ -78,9 +78,9 @@
       "sourcePath": "../skills/rea-browser-toolkit-adapter",
       "targetDirectory": "skills/rea-browser-toolkit-adapter",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
-      "description": "Optional adapter for Dvurechensky's Browser Reverse Engineering Toolkit"
+      "description": "Architectural specification for optional Browser Reverse Engineering Toolkit adapter (DESIGN_ONLY / NOT VERIFIED)"
     },
     {
       "id": "rea-frontend-reconstruction",
@@ -89,7 +89,7 @@
       "sourcePath": "../skills/rea-frontend-reconstruction",
       "targetDirectory": "skills/rea-frontend-reconstruction",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Frontend-only reconstruction engine driven by IR and mock contracts"
     },
@@ -100,7 +100,7 @@
       "sourcePath": "../skills/rea-validation",
       "targetDirectory": "skills/rea-validation",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": ["SKILL.md"],
       "description": "Quality assurance and Eight-Dimension Acceptance validation framework"
     },
@@ -111,7 +111,7 @@
       "sourcePath": "../antigravity/rules/rea-identity.md",
       "targetDirectory": "rules/rea-identity.md",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": [],
       "description": "Permanent operational rules and safety restrictions for REA"
     },
@@ -122,9 +122,9 @@
       "sourcePath": "../antigravity/workflows/rea-start-session.md",
       "targetDirectory": "workflows/rea-start-session.md",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": [],
-      "description": "Workflow runbook for REA session initialization and Phase 0 preflight"
+      "description": "Archived workflow reference runbook for REA session initialization and Phase 0 preflight"
     },
     {
       "id": "rea-feasibility-check-workflow",
@@ -133,9 +133,9 @@
       "sourcePath": "../antigravity/workflows/rea-feasibility-check.md",
       "targetDirectory": "workflows/rea-feasibility-check.md",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": [],
-      "description": "Workflow runbook for provisional and final feasibility evaluations"
+      "description": "Archived workflow reference runbook for provisional and final feasibility evaluations"
     },
     {
       "id": "rea-run-phase-workflow",
@@ -144,9 +144,9 @@
       "sourcePath": "../antigravity/workflows/rea-run-phase.md",
       "targetDirectory": "workflows/rea-run-phase.md",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": [],
-      "description": "Workflow runbook for executing an individual REA partition with gating"
+      "description": "Archived workflow reference runbook for executing an individual REA partition with gating"
     },
     {
       "id": "rea-approve-reconstruction-workflow",
@@ -155,9 +155,9 @@
       "sourcePath": "../antigravity/workflows/rea-approve-reconstruction.md",
       "targetDirectory": "workflows/rea-approve-reconstruction.md",
       "enabled": true,
-      "version": "1.1.0",
+      "version": "2.1.0",
       "requiredFiles": [],
-      "description": "Gated workflow runbook for authorizing Phase 13 frontend reconstruction"
+      "description": "Archived workflow reference runbook for verifying prerequisites before Phase 16 reconstruction"
     }
   ]
 }

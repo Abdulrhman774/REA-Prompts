@@ -27,7 +27,7 @@ Activate this skill during Phase 13 (§7 Quality Assurance) after `rea-frontend-
 - QA section in `reconstruction-report.md`.
 
 ## 6. Relevant REA Phases
-- **Phase 13 (`PART-07`):** Quality Assurance and Final Acceptance.
+- **MASTER-PHASE-17 (`PART-07-LOCAL-PHASE-13.8`):** Quality Assurance and Canonical Eight-Dimension Acceptance.
 
 ## 7. Required Capabilities
 - Local build tool execution (e.g. `npm run build`, `npm test`) within `{{RECON_DIR}}`.
@@ -38,22 +38,25 @@ Activate this skill during Phase 13 (§7 Quality Assurance) after `rea-frontend-
 - Reports gate status to `rea-orchestrator`.
 - Reuses inspection evidence from `rea-evidence-ledger`.
 
-## 9. The Eight Acceptance Dimensions
-Every reconstructed project must be evaluated across all eight dimensions. Each receives an explicit status:
-- `Verified`: Tested and confirmed to match documented evidence.
-- `Not verified`: Not tested or test incomplete.
-- `Not verified due to limitation`: Blocked by a documented environment, tooling, or scope constraint.
+## 9. The Canonical Eight Acceptance Dimensions
+Every reconstructed project must be evaluated across all eight dimensions. Each receives an explicit canonical status:
+- `VERIFIED`: Tested and confirmed to match documented evidence.
+- `NOT_VERIFIED`: Unmeasured, untested, or blocked; MUST include a documented `LIMITATION`.
+
+> [!CAUTION]
+> **NO AUTOMATIC STATUS UPGRADES:**  
+> `rea-validation` must **NEVER** automatically upgrade a result from `NOT_VERIFIED` to `VERIFIED`. A report, expected behavior, or successful file creation is **NOT** sufficient proof that an acceptance check has passed. Only actual test execution evidence justifies `VERIFIED`.
 
 ### Dimension Specifications:
 1. **Visual Fidelity:** Typography, spacing, layout structure, color contrast, borders, and shadows compared against baseline screenshots.
-   - *Rule:* Visual comparison requires a verified `render.local` capability. If unsupported or unverified, record `Not verified due to limitation` and do not claim visual comparison.
+   - *Rule:* Visual comparison requires a verified `render.local` capability. If unsupported or unverified, record `NOT_VERIFIED` with `LIMITATION` and do not claim visual comparison occurred.
 2. **Route Coverage:** Verification of all mapped routes, nested routes, dynamic parameter handling, and 404 fallback routing.
 3. **Components and Layout:** Verification of layout shells, navigation bars, footers, component hierarchies, and component origin fidelity (`server` vs `client`).
 4. **Interactions:** Verification of buttons, dropdowns, modals, accordions, tabs, form inputs, validation feedback, and event handlers.
 5. **Client-Side State:** Verification of local/session storage simulation, UI toggles, state transitions, and client-side filter behavior.
 6. **Responsive Behavior:** Verification across desktop, tablet, and mobile (including 390px reference width and observed breakpoint ranges).
 7. **Assets:** Verification that all authorized assets load cleanly and all unauthorized/unknown assets render as explicit, non-broken placeholders.
-8. **Functional Consistency:** Verification that synthetic API mocks deliver observed data structures and client loading/empty/error states behave as documented.
+8. **Functional Consistency:** Verification that synthetic API mocks deliver observed data structures and client loading/empty/error states behave as documented. Supporting sub-aspects (accessibility, mock fidelity, code architecture) map directly under these 8 dimensions.
 
 ## 10. Core Rules & Acceptance Criteria
 1. **No False Completion:** Never describe a reconstruction as complete if one or more required dimensions remain unverified without a documented limitation.

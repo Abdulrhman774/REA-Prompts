@@ -10,7 +10,9 @@ Besides the final audit deliverables, read `{{AUDIT_DIR}}ir.json`, `ir-summary.m
 - No credentials, cookies, tokens, session identifiers, or real personal data are placed in any generated file.
 - If no IR exists (graph-less mode), proceed from the markdown deliverables exactly as originally defined and record that no IR was available.
 
-## Phase 13 — Frontend-Only Reconstruction
+## Phase 13 — Frontend-Only Reconstruction (MASTER-PHASE-16 / PART-07-LOCAL-PHASE-13)
+> [!NOTE]
+> Reconstruction executes under **MASTER-PHASE-16** (locally titled Phase 13). It is governed by [`REA-PHASE-REGISTRY.md`](../REA-PHASE-REGISTRY.md) and must never be confused with **MASTER-PHASE-13** (Framework-Agnostic IR Freeze).
 
 ### Primary objective
 Reconstruct the observable frontend in `{{RECON_DIR}}` as accurately and comprehensively as the evidence permits. This is frontend-only. Do not implement, generate, configure, or operate a backend.
@@ -92,11 +94,12 @@ Use local mock authentication only. Do not bypass the original app's authenticat
 Every reconstructed frontend must be evaluated against the Eight Acceptance Dimensions. Each dimension must receive an explicit status:
 - `Verified`: Tested and confirmed to match evidence.
 - `Not verified`: Not tested or test incomplete.
-- `Not verified due to limitation`: Blocked by an explicit tooling, platform, or environment constraint.
+Evaluate the Canonical Eight Acceptance Dimensions independently:
+- Allowed assessment results: `VERIFIED` or `NOT_VERIFIED` (accompanied by a documented `LIMITATION`).
 
-The Eight Dimensions:
+The Canonical Eight Dimensions:
 1. **Visual Fidelity:** Typography, spacing, layout hierarchy, color palettes, borders, shadows, and iconography compared against evidence screenshots.
-   - Note: Visual comparison requires a usable local rendering and screenshot capability (`render.local`). If unavailable, record `Not verified due to limitation` and do not claim visual comparison occurred.
+   - Note: Visual comparison requires a usable local rendering and screenshot capability (`render.local`). If unavailable, record `NOT_VERIFIED` with `LIMITATION` and do not claim visual comparison occurred.
 2. **Route Coverage:** Verification of all mapped routes, dynamic route families, navigation transitions, and fallback/404 routing.
 3. **Components and Layout:** Verification of shared layouts, nested viewports, component hierarchies, slots, and component origin fidelity.
 4. **Interactions:** Verification of buttons, modals, dropdowns, accordions, tabs, form inputs, validation triggers, and event handlers.
